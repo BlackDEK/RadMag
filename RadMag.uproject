@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{40CE3221-44E0-4F50-B0E5-83BC87A13740}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "RadMag",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
