@@ -4,14 +4,14 @@ using UnrealBuildTool;
 
 public class RadMag : ModuleRules
 {
-	public RadMag(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.NoSharedPCHs;
-		PrivatePCHHeaderFile = "MainPCH.h";
-		CppStandard = CppStandardVersion.Cpp17;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnTT" });
+    public RadMag(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PCHUsage = PCHUsageMode.NoSharedPCHs;
+        PrivatePCHHeaderFile = "MainPCH.h";
+        CppStandard = CppStandardVersion.Cpp17;
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-	}
+        PublicDependencyModuleNames.AddRange(new string[] {"Core", "CoreUObject", "Engine", "InputCore", "ECSCore"});
+
+        PrivateDependencyModuleNames.AddRange(new string[] {});
+    }
 }
