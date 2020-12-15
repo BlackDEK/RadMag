@@ -1,6 +1,6 @@
 ﻿#include "Systems/RenderSystems/RenderSystems.h"
 #include "GameData.h"
-#include "Entities/DistrictData.h"
+#include "Entities/District.h"
 #include "Systems/System.h"
 #include "Systems/Utilities/CoordinateUtilities.h"
 

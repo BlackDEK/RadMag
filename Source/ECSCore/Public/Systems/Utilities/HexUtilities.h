@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CoordinateUtilities.h"
 #include "GameData.h"
-#include "Entities/DistrictData.h"
+#include "Entities/District.h"
 #include "Entities/Settings.h"
 
 /** */

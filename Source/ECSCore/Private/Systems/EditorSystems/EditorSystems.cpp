@@ -3,7 +3,7 @@
 #include "Systems/EditorSystems/EditorSystems.h"
 #include "GameData.h"
 #include "Entities/BasicComponents.h"
-#include "Entities/DistrictData.h"
+#include "Entities/District.h"
 #include "Entities/ResourceData.h"
 #include "Entities/Settings.h"
 #include "Systems/System.h"
