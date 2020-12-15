@@ -5,6 +5,7 @@
 	"Description": "",
 	"Modules": [
 		{
+
 			"Name": "RadMag",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",

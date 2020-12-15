@@ -9,8 +9,7 @@ public class RadMagEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "RadMag" } );
-		ExtraModuleNames.Add ("ECSCore");
+		ExtraModuleNames.AddRange( new string[] { "RadMag", "ECSCore"} );
 		
 	}
 }
