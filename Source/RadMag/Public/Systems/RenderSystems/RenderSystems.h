@@ -6,10 +6,10 @@
 
 #include "AbstractChunk.h"
 #include "AbstractMap.h"
+#include "System.h"
+#include "Entities/Settings.h"
 #include "entity/registry.hpp"
 #include "UObject/NoExportTypes.h"
-#include "Entities/Settings.h"
-#include "Systems/System.h"
 
 #include "RenderSystems.generated.h"
 
@@ -17,7 +17,7 @@
 * 
 */
 UCLASS(BlueprintType)
-class ECSCORE_API URenderSystems final : public UObject
+class RADMAG_API URenderSystems final : public UObject
 {
 	GENERATED_BODY()
 
@@ -36,5 +36,5 @@ public:
 	static USystem* MakeSystemGenerateChunkCache(TScriptInterface<IAbstractChunk> Chunk, UObject* Outer);
 
 	UFUNCTION(BlueprintCallable)
-    static USystem* MakeSystemChunkCounter(TScriptInterface<IAbstractMap> Map, UObject* Outer);
+	static USystem* MakeSystemChunkCounter(TScriptInterface<IAbstractMap> Map, UObject* Outer);
 };

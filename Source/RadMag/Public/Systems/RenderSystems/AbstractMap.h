@@ -7,12 +7,12 @@
 #include "AbstractMap.generated.h"
 
 UINTERFACE(BlueprintType)
-class ECSCORE_API UAbstractMap : public UInterface
+class RADMAG_API UAbstractMap : public UInterface
 {
     GENERATED_BODY()
 };
 
-class ECSCORE_API IAbstractMap
+class RADMAG_API IAbstractMap
 {
     GENERATED_BODY()
     

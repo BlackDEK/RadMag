@@ -3,8 +3,8 @@
 
 #include "Systems/HUDSystems/HUDSystems.h"
 #include "GameData.h"
+#include "System.h"
 #include "Entities/Settings.h"
-#include "Systems/System.h"
 #include "Systems/Utilities/HexUtilities.h"
 
 USystem* UHUDSystems::MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)

@@ -11,7 +11,7 @@
  * 
  */
 UCLASS(BlueprintType)
-class ECSCORE_API UHUDSystems final : public UObject
+class RADMAG_API UHUDSystems final : public UObject
 {
 	GENERATED_BODY()
 

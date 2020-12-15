@@ -6,7 +6,6 @@
 #include "Entities/District.h"
 #include "Entities/ResourceData.h"
 #include "Entities/Settings.h"
-#include "Systems/System.h"
 #include "Systems/Utilities/CoordinateUtilities.h"
 
 USystem* UEditorSystems::MakeSystemGenerateWorld(const int32& Length, const int32& Height, const int32& CommonDivisor,

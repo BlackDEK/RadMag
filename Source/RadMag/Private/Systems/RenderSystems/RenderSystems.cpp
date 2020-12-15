@@ -1,7 +1,6 @@
 ﻿#include "Systems/RenderSystems/RenderSystems.h"
 #include "GameData.h"
 #include "Entities/District.h"
-#include "Systems/System.h"
 #include "Systems/Utilities/CoordinateUtilities.h"
 
 USystem* URenderSystems::MakeSystemPrepareRenderData(UObject* Outer)

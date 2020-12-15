@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 
-#include "Systems/System.h"
+
+#include "System.h"
 #include "UObject/NoExportTypes.h"
 #include "EditorSystems.generated.h"
 
@@ -14,7 +15,7 @@ class USystem;
  * 
  */
 UCLASS(BlueprintType)
-class ECSCORE_API UEditorSystems final : public UObject
+class RADMAG_API UEditorSystems final : public UObject
 {
 	GENERATED_BODY()
 

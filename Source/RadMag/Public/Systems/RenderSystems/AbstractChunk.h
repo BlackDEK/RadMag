@@ -7,12 +7,12 @@
 #include "AbstractChunk.generated.h"
 
 UINTERFACE(BlueprintType)
-class ECSCORE_API UAbstractChunk : public UInterface
+class RADMAG_API UAbstractChunk : public UInterface
 {
 	GENERATED_BODY()
 };
 
-class ECSCORE_API IAbstractChunk
+class RADMAG_API IAbstractChunk
 {
 	GENERATED_BODY()
 

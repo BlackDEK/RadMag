@@ -7,12 +7,12 @@
 #include "AbstractWidget.generated.h"
 
 UINTERFACE(BlueprintType)
-class ECSCORE_API UAbstractWidget : public UInterface
+class RADMAG_API UAbstractWidget : public UInterface
 {
     GENERATED_BODY()
 };
 
-class ECSCORE_API IAbstractWidget
+class RADMAG_API IAbstractWidget
 {
     GENERATED_BODY()
     
