@@ -11,8 +11,8 @@ class UGameData;
 /**
  * 
  */
-UCLASS(Blueprintable)
-class ECSCORE_API UGameDataManager : public UObject
+UCLASS(BlueprintType)
+class ECSCORE_API UGameDataManager final : public UObject
 {
     GENERATED_BODY()
 

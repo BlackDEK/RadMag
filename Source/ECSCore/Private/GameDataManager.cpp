@@ -19,6 +19,7 @@ void UGameDataManager::CreateGameData()
 void UGameDataManager::Execute(USystem* System)
 {
     check(System);
+    check(GameData);
     System->Execute(GameData);
     
 }
