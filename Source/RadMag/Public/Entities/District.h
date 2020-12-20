@@ -3,6 +3,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "BasicComponents.h"
+#include "Entities/List.h"
 
 /** */
 struct FDistrictData
@@ -14,5 +15,5 @@ struct FDistrictData
 /** */
 struct FBuilding
 {
-    FHeadOfArray HeadOfArray;
+    FList HeadOfArray;
 };
