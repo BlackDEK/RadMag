@@ -17,6 +17,7 @@ class ECSCORE_API UGameData final : public UObject
     GENERATED_BODY()
 
 public:
+	// Удалить это!
     entt::entity SettingsId{entt::null};
     entt::registry World;
 };
