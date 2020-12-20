@@ -15,51 +15,45 @@ using LCommand = TFunction<void(UGameData*)>;
 UCLASS(BlueprintType)
 class ECSCORE_API USystem final : public UObject
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 protected:
 
-    UPROPERTY()
-    bool bInit;
+	UPROPERTY()
+	bool bInit;
 
-    LCommand ExecuteCommand;
-    LCommand UndoCommand;
+	LCommand ExecuteCommand;
 
 public:
 
-    USystem()
-    {
-        ExecuteCommand = [](UGameData*)
-        {
-            check(false);
-        };
-        UndoCommand = [](UGameData*)
-        {
-            check(false);
-        };
-    }
+	USystem()
+	{
+		ExecuteCommand = [](UGameData*)
+		{
+			check(false);
+		};
+	}
 
-    ~USystem() = default;
+	~USystem() = default;
 
-    void Init(LCommand SetExecuteCommand, LCommand SetUndoCommand = [](UGameData*) { check(false) })
-    {
-        check(!bInit);
-        ExecuteCommand = SetExecuteCommand;
-        UndoCommand = SetUndoCommand;
-        bInit = true;
-    }
+	void Init(LCommand SetExecuteCommand)
+	{
+		check(!bInit);
+		ExecuteCommand = SetExecuteCommand;
+		bInit = true;
+	}
 
-    void Execute(UGameData* GameData) const
-    {
-        check(bInit);
-        check(GameData);
-        ExecuteCommand(GameData);
-    }
+	void Execute(UGameData* GameData) const
+	{
+		check(bInit);
+		check(GameData);
+		ExecuteCommand(GameData);
+	}
 
-    void Undo(UGameData* GameData) const
-    {
-        check(bInit);
-        check(GameData);
-        UndoCommand(GameData);
-    }
+	bool IsInit() const { return bInit; }
+
+	void Delete()
+	{
+		this->ConditionalBeginDestroy();
+	}
 };
