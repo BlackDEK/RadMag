@@ -5,7 +5,6 @@
 	"Description": "",
 	"Modules": [
 		{
-
 			"Name": "RadMag",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
@@ -13,15 +12,28 @@
 				"CoreUObject",
 				"Engine"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "FunctionalTestingEditor",
+			"Enabled": true
 		},
 		{
-			"Name": "ECSCore",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"CoreUObject",
-				"Engine"
-			]
+			"Name": "EditorTests",
+			"Enabled": true
+		},
+		{
+			"Name": "RuntimeTests",
+			"Enabled": true
+		},
+		{
+			"Name": "RHITests",
+			"Enabled": true
+		},
+		{
+			"Name": "FbxAutomationTestBuilder",
+			"Enabled": true
 		}
 	]
 }
