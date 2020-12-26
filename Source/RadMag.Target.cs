@@ -9,6 +9,6 @@ public class RadMagTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "RadMag", "ECSCore"} );
+		ExtraModuleNames.AddRange( new string[] { "RadMag"} );
 	}
 }
