@@ -26,8 +26,8 @@
 
 
 #ifndef ENTT_ID_TYPE
-#   include <cstdint>
-#   define ENTT_ID_TYPE std::uint32_t
+#   include "CoreMinimal.h"
+#   define ENTT_ID_TYPE uint32
 #endif
 
 
