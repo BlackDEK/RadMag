@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "RenderSystemsContexts.h"
 #include "UObject/Interface.h"
 #include "AbstractMap.generated.h"
 
@@ -17,7 +19,7 @@ class RADMAG_API IAbstractMap
     GENERATED_BODY()
     
 public:
-    
+
     UFUNCTION(BlueprintNativeEvent, Category = "|-- Info")
-    void OnGetChunkCounter(int32 ChunkCounter);
+    void OnGetChunkCache(UPARAM(ref) TArray<FChunkCache>& Cache);
 };

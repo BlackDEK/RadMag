@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "AbstractWidget.h"
 #include "UObject/NoExportTypes.h"
-#include "HUDSystems.generated.h"
+#include "WorldInfoGetter.generated.h"
 
 /**
  * 
  */
 UCLASS(BlueprintType)
-class RADMAG_API UHUDSystems final : public UObject
+class RADMAG_API UWorldInfoGetter final : public UObject
 {
 	GENERATED_BODY()
 
@@ -19,8 +19,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static USystem* MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer);
-
-	UFUNCTION(BlueprintCallable)
-	static USystem* MakeSystemDistrictInfoGetter(TScriptInterface<IAbstractWidget> Widget, const FVector& Location,
-	                                             UObject* Outer);
 };

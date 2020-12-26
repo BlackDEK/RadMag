@@ -17,11 +17,4 @@ class RADMAG_API IAbstractChunk
 	GENERATED_BODY()
 
 public:
-
-	UFUNCTION(BlueprintNativeEvent, Category = "|-- Info")
-	void OnCreateChunk(UPARAM(ref) TArray<FVector>& Vertices, UPARAM(ref) TArray<int32>& Triangles,
-	                 UPARAM(ref) TArray<FLinearColor>& VertexColors);
-
-	UFUNCTION(BlueprintNativeEvent, Category = "|-- Info")
-	int32 GetId();
 };

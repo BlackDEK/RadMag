@@ -2,18 +2,36 @@
 
 #pragma once
 #include "CoreMinimal.h"
-#include "BasicComponents.h"
-#include "Entities/List.h"
+#include "Components/BasicData.h"
+#include "Components/EnttList.h"
+
+#include "District.generated.h"
 
 /** */
-struct FDistrictData
+USTRUCT()
+struct FDistrict
 {
+    GENERATED_BODY()
+
+public:
+	
+    /** */
+    UPROPERTY()
     FBasicData BasicData;
+    	
+    /** */
+    UPROPERTY()
     FIntVector CubeCoordinate;
-};
 
-/** */
-struct FBuilding
-{
-    FList HeadOfArray;
+    /** */
+    UPROPERTY()
+    uint32 Biome;
+
+    /** */
+    UPROPERTY()
+    uint32 Anomaly;
+
+    /** */
+    UPROPERTY()
+    FEnttList Slots;
 };

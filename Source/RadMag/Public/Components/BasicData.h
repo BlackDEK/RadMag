@@ -3,10 +3,19 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "entt.hpp"
+#include "BasicData.generated.h"
 
 /** */
+USTRUCT()
 struct FBasicData
 {
-    entt::entity Id;
+    GENERATED_BODY()
+    
+    /** */
+    UPROPERTY()
+    uint32 Id;
+    
+    /** */
+    UPROPERTY()
     FName Name;
 };
