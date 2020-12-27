@@ -13,15 +13,6 @@
 				"CoreUObject",
 				"Engine"
 			]
-		},
-		{
-			"Name": "ECSCore",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"CoreUObject",
-				"Engine"
-			]
 		}
 	]
 }
