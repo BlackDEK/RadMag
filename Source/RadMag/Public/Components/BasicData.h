@@ -13,7 +13,7 @@ struct FBasicData
     
     /** */
     UPROPERTY()
-    uint32 Id;
+    entt::entity Id;
     
     /** */
     UPROPERTY()
