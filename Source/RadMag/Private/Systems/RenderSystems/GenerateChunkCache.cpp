@@ -9,7 +9,7 @@
 
 USystem* UGenerateChunkCache::MakeSystemGenerateChunkCache(TScriptInterface<IAbstractMap> Map, UObject* Outer)
 {
-	const LCommand GenerateChunkCache = [Map](UGameData* GameData)
+	const auto GenerateChunkCache = [Map](UGameData* GameData)
 	{		
 		const auto GameRules = UGameRulesHandler::GetGameRules(GameData);
 		TArray<FDistrict> Districts;

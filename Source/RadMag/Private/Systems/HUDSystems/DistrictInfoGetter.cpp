@@ -12,14 +12,14 @@
 USystem* UDistrictInfoGetter::MakeSystemDistrictInfoGetter(TScriptInterface<IAbstractWidget> Widget,
                                                            const FVector& Location, UObject* Outer)
 {
-	const LCommand DistrictInfoGetter = [Widget, Location](UGameData* GameData)
+	const auto DistrictInfoGetter = [Widget, Location](UGameData* GameData)
 	{
 		const auto& DistrictId = UDistrictHandler::GetDistrictId(Location, GameData);
 		if(DistrictId == entt::null) return;
 	
 		FTextBuilder TextBuilder;
 		const auto District = UDistrictHandler::GetDistrict(DistrictId, GameData);;
-		TextBuilder.AppendLine(FString("Id: " + FString::FromInt(static_cast<uint32>(District.BasicData.Id))));
+		TextBuilder.AppendLine(FString("Id: " + FString::FromInt(District.BasicData.Id)));
 		TextBuilder.AppendLine(FString("Name: " + District.BasicData.Name.ToString()));
 		TextBuilder.AppendLine(FString(TEXT("CubeCoordinate: ") + District.CubeCoordinate.ToString()));
 		const auto Text = TextBuilder.ToText();

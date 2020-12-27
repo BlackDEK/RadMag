@@ -9,7 +9,7 @@
 
 USystem* UWorldInfoGetter::MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)
 {
-	const LCommand WorldInfoGetter = [Widget](UGameData* GameData)
+	const auto WorldInfoGetter = [Widget](UGameData* GameData)
 	{
 		const auto MapRules = UGameRulesHandler::GetGameRules(GameData).MapRules;
 		FTextBuilder TextBuilder;

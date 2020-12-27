@@ -7,7 +7,6 @@
 #include "System.generated.h"
 
 class UGameData;
-using LCommand = TFunction<void(UGameData*)>;
 
 /**
  * 
@@ -22,7 +21,7 @@ protected:
 	UPROPERTY()
 	bool bInit;
 
-	LCommand ExecuteCommand;
+	TFunction<void(UGameData*)> ExecuteCommand;
 
 public:
 
@@ -33,25 +32,20 @@ public:
 			check(false);
 		};
 	}
-
 	~USystem() = default;
-
-	void Init(LCommand SetExecuteCommand)
+	void Init(TFunction<void(UGameData*)> SetExecuteCommand)
 	{
 		check(!bInit);
 		ExecuteCommand = SetExecuteCommand;
 		bInit = true;
 	}
-
 	void Execute(UGameData* GameData) const
 	{
 		check(bInit);
 		check(GameData);
 		ExecuteCommand(GameData);
 	}
-
 	bool IsInit() const { return bInit; }
-
 	void Delete()
 	{
 		this->ConditionalBeginDestroy();

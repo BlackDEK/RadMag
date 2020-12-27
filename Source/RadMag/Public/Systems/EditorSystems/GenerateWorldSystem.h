@@ -26,7 +26,7 @@ public:
 
 private:
 	
-	static LCommand MakeSystemSetSettings(const FGenerateWorldContext& GenerateWorldContext);
-	static LCommand MakeSystemGenerateMap();
+	static TFunction<void(UGameData*)> MakeSystemSetSettings(const FGenerateWorldContext& GenerateWorldContext);
+	static TFunction<void(UGameData*)> MakeSystemGenerateMap();
 	
 };

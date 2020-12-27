@@ -9,7 +9,7 @@ USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FGenerateWorldConte
 {
 	const auto SetSetting = MakeSystemSetSettings(GenerateWorldContext);
 	const auto GenerateMap = MakeSystemGenerateMap();
-	const LCommand LGenerateWorld = [SetSetting, GenerateMap](UGameData* GameData)
+	const auto LGenerateWorld = [SetSetting, GenerateMap](UGameData* GameData)
 	{
 		SetSetting(GameData);
 		GenerateMap(GameData);
@@ -19,20 +19,21 @@ USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FGenerateWorldConte
 	return Command;
 }
 
-LCommand UGenerateWorldSystem::MakeSystemSetSettings(const FGenerateWorldContext& GenerateWorldContext)
+TFunction<void(UGameData*)> UGenerateWorldSystem::MakeSystemSetSettings(const FGenerateWorldContext& GenerateWorldContext)
 {
-	const LCommand LSetSettings = [GenerateWorldContext](UGameData* GameData)
+	const TFunction<void(UGameData*)> LSetSettings = [GenerateWorldContext](UGameData* GameData)
 	{
 		UGameRulesHandler::CreateGameRules(GenerateWorldContext,GameData);
 	};
 	return LSetSettings;
 }
 
-LCommand UGenerateWorldSystem::MakeSystemGenerateMap()
+TFunction<void(UGameData*)> UGenerateWorldSystem::MakeSystemGenerateMap()
 {
-	const LCommand LGenerateMap = [](UGameData* GameData)
+	const TFunction<void(UGameData*)> LGenerateMap = [](UGameData* GameData)
 	{
 		UDistrictHandler::CreateDistricts(GameData);
 	};
 	return LGenerateMap;
 }
+
