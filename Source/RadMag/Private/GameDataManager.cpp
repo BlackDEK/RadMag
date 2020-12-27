@@ -32,7 +32,7 @@ void UGameDataManager::AddSystemInTurn(USystem* System)
 
 void UGameDataManager::RemoveSystemInTurn(const int32& Index)
 {
-    check(TurnSystems.Contains(Index));
+    check(TurnSystems.IsValidIndex(Index));
     check(GameData);
     TurnSystems.RemoveAt(Index);
 }
