@@ -4,15 +4,14 @@
 #include "Systems/IncrementingTurnSystem.h"
 #include "GameData.h"
 #include "Commands/InternalCommands/TurnCommands.h"
+#include "Systems/BasicSystemFactory.h"
 #include "Systems/System.h"
 
 USystem* UIncrementingTurnSystem::MakeSystemIncrementingTurn(UObject* Outer)
 {
-	const auto Command = [](UGameData* GameData)
+	const auto IncrementingTurn = [](UGameData* GameData)
 	{
 		TurnCommands::IncrementingTurn(GameData);
 	};
-	auto System = NewObject<USystem>(Outer);
-	System->Init(Command);
-	return System;
+	return UBasicSystemFactory::CreateSystem(IncrementingTurn, Outer);
 }

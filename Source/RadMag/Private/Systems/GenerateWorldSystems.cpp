@@ -4,18 +4,16 @@
 #include "GameData.h"
 #include "Commands/ExternalCommands/BasicExternalCommands.h"
 #include "Commands/InternalCommands/InternalCreateCommands.h"
-#include "Systems/System.h"
+#include "Systems/BasicSystemFactory.h"
 
 USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FCreateGameRulesContext& GenerateWorldContext,
                                                        UObject* Outer)
 {
-	const auto Command = [GenerateWorldContext](UGameData* GameData)
+	const auto GenerateWorldSystem = [GenerateWorldContext](UGameData* GameData)
 	{
 		BasicExternalCommands::CreateGameRules(GenerateWorldContext, GameData);
 		InternalCreateCommands::CreateDistricts(GameData);
 		InternalCreateCommands::CreateWorldInfo(GameData);
 	};
-	auto System = NewObject<USystem>(Outer);
-	System->Init(Command);
-	return System;
+	return UBasicSystemFactory::CreateSystem(GenerateWorldSystem, Outer);
 }

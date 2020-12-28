@@ -4,16 +4,14 @@
 #include "Systems/MapInfoGetter.h"
 #include "GameData.h"
 #include "Commands/InternalCommands/HUDCommands.h"
-#include "Systems/System.h"
+#include "Systems/BasicSystemFactory.h"
 
 USystem* UMapInfoGetter::MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)
 {
-	const auto Command = [Widget](UGameData* GameData)
+	const auto MapInfoGetter = [Widget](UGameData* GameData)
 	{
 		const auto Text = HUDCommands::MapInfoGetter(GameData);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
-	auto System = NewObject<USystem>(Outer);
-	System->Init(Command);
-	return System;
+	return UBasicSystemFactory::CreateSystem(MapInfoGetter, Outer);
 }
