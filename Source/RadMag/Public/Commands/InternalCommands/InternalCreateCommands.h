@@ -5,6 +5,7 @@
 #include "GameData.h"
 #include "HexMetricsCommands.h"
 #include "Entities/District.h"
+#include "Entities/FWorldInfo.h"
 #include "Entities/GameRules.h"
 
 namespace InternalCreateCommands
@@ -25,5 +26,15 @@ namespace InternalCreateCommands
 				District.BasicData.Name = FName("District_" + FString::FromInt(X) + "_" + FString::FromInt(Y));
 				District.CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(FIntVector(X, Y, 0));
 			}
+	}
+
+	inline void CreateWorldInfo(UGameData* GameData)
+	{
+		auto& World = GameData->World;
+		check(!World.valid(World.view<FWorldInfo>().front()));
+		BasicInternalCommands::CreateEntity<FWorldInfo>(1, GameData);
+		const auto Id = World.view<FWorldInfo>().front();
+		auto& WorldInfo = World.get<FWorldInfo>(Id);
+		WorldInfo.CurrentTurn = 0;
 	}
 }

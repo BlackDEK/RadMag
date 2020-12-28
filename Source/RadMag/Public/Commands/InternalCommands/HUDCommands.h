@@ -7,16 +7,18 @@
 
 #include "DistrictCommands.h"
 #include "GameData.h"
+#include "Entities/FWorldInfo.h"
 
 namespace HUDCommands
 {
 	inline FText WorldInfoGetter(UGameData* GameData)
 	{
-		//const auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
-		//if(Pair.Key == false) return FText();
-		//const auto MapRules = Pair.Value.MapRules;	
+		const auto Pair = BasicInternalCommands::Get<FWorldInfo>(GameData);
+		if(Pair.Key == false) return FText();
+		const auto WorldInfo = Pair.Value;	
 		FTextBuilder TextBuilder;
 		TextBuilder.AppendLine(FString("Entities: " + FString::FromInt(GameData->World.alive())));
+		TextBuilder.AppendLine(FString("CurrentTurn: " + FString::FromInt(WorldInfo.CurrentTurn)));
 		return TextBuilder.ToText();
 	}
 
