@@ -10,12 +10,12 @@
 USystem* UDistrictInfoGetter::MakeSystemDistrictInfoGetter(TScriptInterface<IAbstractWidget> Widget,
                                                            const FVector& Location, UObject* Outer)
 {
-	const auto Sender = [Widget, Location](UGameData* GameData)
+	const auto Command = [Widget, Location](UGameData* GameData)
 	{
 		const auto Text = HUDCommands::DistrictInfoGetter(Location, GameData);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	auto System = NewObject<USystem>(Outer);
-	System->Init(Sender);
+	System->Init(Command);
 	return System;
 }

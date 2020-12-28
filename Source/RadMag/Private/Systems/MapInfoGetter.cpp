@@ -8,12 +8,12 @@
 
 USystem* UMapInfoGetter::MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)
 {
-	const auto Sender = [Widget](UGameData* GameData)
+	const auto Command = [Widget](UGameData* GameData)
 	{
 		const auto Text = HUDCommands::MapInfoGetter(GameData);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	auto System = NewObject<USystem>(Outer);
-	System->Init(Sender);
+	System->Init(Command);
 	return System;
 }

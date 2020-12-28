@@ -9,13 +9,13 @@
 
 USystem* UGenerateChunkCache::MakeSystemGenerateChunksCache(TScriptInterface<IAbstractMap> Map, UObject* Outer)
 {
-	const auto GenerateChunksCache = [Map](UGameData* GameData)
+	const auto Command = [Map](UGameData* GameData)
 	{	
 		TArray<FChunkCache> Caches;
 		RenderCommands::GenerateChunksCache(Caches, GameData);
 		IAbstractMap::Execute_OnGetChunkCache(Map.GetObject(), Caches);
 	};
 	auto System = NewObject<USystem>(Outer);
-	System->Init(GenerateChunksCache);
+	System->Init(Command);
 	return System;
 }

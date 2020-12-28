@@ -9,12 +9,13 @@
 USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FCreateGameRulesContext& GenerateWorldContext,
                                                        UObject* Outer)
 {
-	const auto LGenerateWorld = [GenerateWorldContext](UGameData* GameData)
+	const auto Command = [GenerateWorldContext](UGameData* GameData)
 	{
 		BasicExternalCommands::CreateGameRules(GenerateWorldContext, GameData);
 		InternalCreateCommands::CreateDistricts(GameData);
+		InternalCreateCommands::CreateWorldInfo(GameData);
 	};
-	auto Command = NewObject<USystem>(Outer);
-	Command->Init(LGenerateWorld);
-	return Command;
+	auto System = NewObject<USystem>(Outer);
+	System->Init(Command);
+	return System;
 }
