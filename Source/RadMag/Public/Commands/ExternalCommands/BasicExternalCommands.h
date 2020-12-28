@@ -3,16 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-
-#include "BasicInternalCommands.h"
-#include "GameData.h"
-#include "InternalCommandsContexts.h"
+#include "ExternalCommandsContexts.h"
+#include "Commands/InternalCommands/BasicInternalCommands.h"
 #include "Entities/GameRules.h"
 
 namespace BasicExternalCommands
 {
-	template <typename T>
     inline void CreateGameRules(const FCreateGameRulesContext& Context, UGameData* GameData)
 	{
 		auto& World = GameData->World;

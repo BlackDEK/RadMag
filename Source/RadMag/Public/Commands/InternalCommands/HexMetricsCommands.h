@@ -27,16 +27,16 @@ namespace HexMetricsCommands
 
 	inline float GetInnerDiameter(UGameData* GameData)
 	{
-		auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
-		check(Pair.Key());
+		const auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
+		check(Pair.Key);
 		const auto RenderRules = Pair.Value.RenderRules;
 		return 2.f * RenderRules.OuterRadius * RenderRules.OuterToInner;
 	}
 
 	inline FVector ConvertToRealCoordinate(const FIntVector& OffsetCoordinate, UGameData* GameData)
 	{
-		auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
-		check(Pair.Key());
+		const auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
+		check(Pair.Key);
 		const auto RenderRules = Pair.Value.RenderRules;
 		const auto X = static_cast<float>((OffsetCoordinate.X + OffsetCoordinate.Y * 0.5f - OffsetCoordinate.Y / 2) *
 			GetInnerDiameter(GameData));
@@ -48,7 +48,7 @@ namespace HexMetricsCommands
 	inline FIntVector ConvertToCubeCoordinate(const FVector& RealCoordinate, UGameData* GameData)
 	{
 		auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
-		check(Pair.Key());
+		check(Pair.Key);
 		const auto RenderRules = Pair.Value.RenderRules;
 		float X = RealCoordinate.X / GetInnerDiameter(GameData);
 		float Y = -X;
@@ -75,8 +75,8 @@ namespace HexMetricsCommands
 
 	inline uint32 ConvertToChunkIndex(const FIntVector OffsetCoordinate, UGameData* GameData)
 	{
-		auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
-		check(Pair.Key());
+		const auto Pair = BasicInternalCommands::Get<FGameRules>(GameData);
+		check(Pair.Key);
 		const auto GameRules = Pair.Value;
 		const int32 ChunkX = OffsetCoordinate.X / GameRules.MapRules.ChunkSize;
 		const int32 ChunkY = OffsetCoordinate.Y / GameRules.MapRules.ChunkSize;
