@@ -28,6 +28,7 @@ void UGameDataManager::AddSystemInTurn(USystem* System)
     check(System);
     check(GameData);
     TurnSystems.Add(System);
+    
 }
 
 void UGameDataManager::RemoveSystemInTurn(const int32& Index)
@@ -39,6 +40,6 @@ void UGameDataManager::RemoveSystemInTurn(const int32& Index)
 
 void UGameDataManager::NextTurn()
 {
-    for(auto& Element : TurnSystems)
+    for(auto Element : TurnSystems)
         Element->Execute(GameData);
 }

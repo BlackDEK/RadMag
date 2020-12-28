@@ -8,7 +8,7 @@
 
 USystem* UIncrementingTurnSystem::MakeSystemIncrementingTurn(UObject* Outer)
 {
-	const TFunction<void(UGameData*)> Command = [](UGameData* GameData)
+	const auto Command = [](UGameData* GameData)
 	{
 		TurnCommands::IncrementingTurn(GameData);
 	};
