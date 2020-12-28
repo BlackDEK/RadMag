@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 
-#include "EditorSystemsContexts.h"
-#include "Systems/System.h"
+#include "Commands/ExternalCommands/ExternalCommandsContexts.h"
 #include "UObject/NoExportTypes.h"
 #include "GenerateWorldSystem.generated.h"
 
@@ -22,11 +21,6 @@ class RADMAG_API UGenerateWorldSystem final : public UObject
 public:
 
 	UFUNCTION(BlueprintCallable)
-	static USystem* MakeSystemGenerateWorld(const FGenerateWorldContext& GenerateWorldContext, UObject* Outer);
-
-private:
-	
-	static TFunction<void(UGameData*)> MakeSystemSetSettings(const FGenerateWorldContext& GenerateWorldContext);
-	static TFunction<void(UGameData*)> MakeSystemGenerateMap();
+	static USystem* MakeSystemGenerateWorld(const FCreateGameRulesContext& GenerateWorldContext, UObject* Outer);
 	
 };

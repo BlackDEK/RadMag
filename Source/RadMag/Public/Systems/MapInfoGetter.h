@@ -3,20 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbstractWidget.h"
+
+#include "Interfaces/AbstractWidget.h"
 #include "UObject/NoExportTypes.h"
-#include "WorldInfoGetter.generated.h"
+#include "MapInfoGetter.generated.h"
 
 /**
  * 
  */
 UCLASS(BlueprintType)
-class RADMAG_API UWorldInfoGetter final : public UObject
+class RADMAG_API UMapInfoGetter final : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
 	UFUNCTION(BlueprintCallable)
-	static USystem* MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer);
+	static USystem* MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer);
 };

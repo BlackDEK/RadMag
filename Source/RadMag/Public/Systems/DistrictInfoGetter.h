@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "AbstractWidget.h"
+#include "Interfaces/AbstractWidget.h"
 #include "UObject/Object.h"
 #include "DistrictInfoGetter.generated.h"
 

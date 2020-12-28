@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbstractMap.h"
 #include "Entities/GameRules.h"
 #include "entity/registry.hpp"
+#include "Interfaces/AbstractMap.h"
 #include "UObject/NoExportTypes.h"
 
 #include "GenerateChunkCache.generated.h"
@@ -21,5 +21,5 @@ class RADMAG_API UGenerateChunkCache final : public UObject
 public:
 
 	UFUNCTION(BlueprintCallable)
-	static USystem* MakeSystemGenerateChunkCache(TScriptInterface<IAbstractMap> Map, UObject* Outer);
+	static USystem* MakeSystemGenerateChunksCache(TScriptInterface<IAbstractMap> Map, UObject* Outer);
 };
