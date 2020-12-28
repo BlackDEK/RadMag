@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "RenderSystemsContexts.h"
+#include "Commands/InternalCommands/RenderCommandsContexts.h"
 #include "UObject/Interface.h"
 #include "AbstractMap.generated.h"
 
