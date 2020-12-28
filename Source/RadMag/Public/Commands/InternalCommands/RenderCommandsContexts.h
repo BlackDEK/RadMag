@@ -1,28 +1,26 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
-#include "CoreMinimal.h"
-#include "EditorSystemsContexts.generated.h"
+#include "RenderCommandsContexts.generated.h"
 
 /**
- * 
- */
+* 
+*/
 USTRUCT(BlueprintType)
-struct FGenerateWorldContext
+struct FChunkCache
 {
 	GENERATED_BODY()
 
 	/** */
 	UPROPERTY(BlueprintReadWrite)
-	int32 ChunkCountOX;
+	TArray<FVector> Vertices;
 	
 	/** */
 	UPROPERTY(BlueprintReadWrite)
-	int32 ChunkCountOY;
+	TArray<int32> Triangles;
 	
 	/** */
 	UPROPERTY(BlueprintReadWrite)
-	int32 ChunkSize;
+	TArray<FLinearColor> VertexColors;
 	
 };
