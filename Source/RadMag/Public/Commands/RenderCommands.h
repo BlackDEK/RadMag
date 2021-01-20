@@ -6,7 +6,7 @@
 #include "GameData.h"
 #include "HexMetricsCommands.h"
 #include "RenderCommandsContexts.h"
-#include "Commands/ExternalCommands/BasicExternalCommands.h"
+#include "Commands/BasicExternalCommands.h"
 #include "Entities/District.h"
 
 namespace RenderCommands

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 
-#include "Commands/ExternalCommands/ExternalCommandsContexts.h"
+#include "Commands/ExternalCommandsContexts.h"
 #include "UObject/NoExportTypes.h"
 #include "GenerateWorldSystem.generated.h"
 

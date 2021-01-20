@@ -3,7 +3,7 @@
 
 #include "Systems/WorldInfoGetter.h"
 #include "GameData.h"
-#include "Commands/InternalCommands/HUDCommands.h"
+#include "Commands/HUDCommands.h"
 #include "Systems/BasicSystemFactory.h"
 
 USystem* UWorldInfoGetter::MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)

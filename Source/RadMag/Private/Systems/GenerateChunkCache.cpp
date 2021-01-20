@@ -2,8 +2,8 @@
 
 #include "Systems/GenerateChunkCache.h"
 #include "GameData.h"
-#include "Commands/InternalCommands/RenderCommands.h"
-#include "Commands/InternalCommands/RenderCommandsContexts.h"
+#include "Commands/RenderCommands.h"
+#include "Commands/RenderCommandsContexts.h"
 #include "Systems/BasicSystemFactory.h"
 #include "Systems/System.h"
 

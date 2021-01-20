@@ -2,7 +2,7 @@
 
 #pragma once
 #include "GameData.h"
-#include "Entities/FWorldInfo.h"
+#include "Entities/WorldInfo.h"
 
 namespace TurnCommands
 {

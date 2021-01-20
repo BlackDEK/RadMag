@@ -3,7 +3,7 @@
 
 #include "Systems/IncrementingTurnSystem.h"
 #include "GameData.h"
-#include "Commands/InternalCommands/TurnCommands.h"
+#include "Commands/TurnCommands.h"
 #include "Systems/BasicSystemFactory.h"
 #include "Systems/System.h"
 

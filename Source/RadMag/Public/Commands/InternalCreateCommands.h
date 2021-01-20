@@ -5,7 +5,7 @@
 #include "GameData.h"
 #include "HexMetricsCommands.h"
 #include "Entities/District.h"
-#include "Entities/FWorldInfo.h"
+#include "Entities/WorldInfo.h"
 #include "Entities/GameRules.h"
 
 namespace InternalCreateCommands

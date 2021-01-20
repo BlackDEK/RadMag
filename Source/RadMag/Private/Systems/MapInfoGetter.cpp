@@ -3,7 +3,7 @@
 
 #include "Systems/MapInfoGetter.h"
 #include "GameData.h"
-#include "Commands/InternalCommands/HUDCommands.h"
+#include "Commands/HUDCommands.h"
 #include "Systems/BasicSystemFactory.h"
 
 USystem* UMapInfoGetter::MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ExternalCommandsContexts.h"
-#include "Commands/InternalCommands/BasicInternalCommands.h"
+#include "Commands/BasicInternalCommands.h"
 #include "Entities/GameRules.h"
 
 namespace BasicExternalCommands

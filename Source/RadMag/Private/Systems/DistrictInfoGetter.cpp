@@ -2,7 +2,7 @@
 
 
 #include "Systems/DistrictInfoGetter.h"
-#include "Commands/InternalCommands/HUDCommands.h"
+#include "Commands/HUDCommands.h"
 #include "Systems/BasicSystemFactory.h"
 #include "Systems/System.h"
 #include "Systems/Interfaces/AbstractWidget.h"

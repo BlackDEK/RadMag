@@ -7,7 +7,7 @@
 
 #include "DistrictCommands.h"
 #include "GameData.h"
-#include "Entities/FWorldInfo.h"
+#include "Entities/WorldInfo.h"
 
 namespace HUDCommands
 {
