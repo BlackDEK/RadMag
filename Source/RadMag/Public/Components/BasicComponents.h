@@ -4,12 +4,8 @@
 #include "CoreMinimal.h"
 #include "entt.hpp"
 
-/** */
 struct FBasicData
 {
-    /** */
     entt::entity Id;
-    
-    /** */
     FName Name;
 };
