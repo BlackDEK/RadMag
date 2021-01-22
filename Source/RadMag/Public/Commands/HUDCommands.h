@@ -5,14 +5,14 @@
 #include "CoreMinimal.h"
 #include "DistrictCommands.h"
 #include "GameData.h"
-#include "Entities/BasicEntities.h"
+#include "Entities/Entities.h"
 
 namespace HUDCommands
 {
 	inline FText WorldInfoGetter(UGameData* GameData)
 	{
-		if (!BasicInternalCommands::IsValidEntity<true, BasicEntities::WorldInfo>(GameData)) return FText();
-		const auto WorldInfo = BasicInternalCommands::Get<true, BasicEntities::WorldInfo, FWorldInfo>(GameData);
+		if (!BasicInternalCommands::IsValidEntity<true, Entities::WorldInfo>(GameData)) return FText();
+		const auto WorldInfo = BasicInternalCommands::Get<true, Entities::WorldInfo, FWorldInfo>(GameData);
 		FTextBuilder TextBuilder;
 		TextBuilder.AppendLine(FString("Entities: " + FString::FromInt(GameData->World.alive())));
 		TextBuilder.AppendLine(FString("CurrentTurn: " + FString::FromInt(WorldInfo.CurrentTurn)));
@@ -24,7 +24,7 @@ namespace HUDCommands
 		const auto Entity = DistrictCommands::GetDistrictId(Location, GameData);
 		if (Entity == entt::null) return FText();
 		const auto [BasicData, DistrictData] = BasicInternalCommands::Get
-			<false, DistrictEntities::District, FBasicData, FDistrictData>
+			<false, Entities::District, FBasicData, FDistrictData>
 			(GameData, Entity);
 		
 		FTextBuilder TextBuilder;
@@ -36,8 +36,8 @@ namespace HUDCommands
 
 	inline FText MapInfoGetter(UGameData* GameData)
 	{
-		if (!BasicInternalCommands::IsValidEntity<true, BasicEntities::GameRules>(GameData)) return FText();
-		const auto MapRules = BasicInternalCommands::Get<true, BasicEntities::GameRules, FMapRules>(GameData);	
+		if (!BasicInternalCommands::IsValidEntity<true, Entities::GameRules>(GameData)) return FText();
+		const auto MapRules = BasicInternalCommands::Get<true, Entities::GameRules, FMapRules>(GameData);	
 		FTextBuilder TextBuilder;
 		TextBuilder.AppendLine(FString("Length: " + FString::FromInt(MapRules.ChunkCountOX * MapRules.ChunkSize)));
 		TextBuilder.AppendLine(FString("Height: " + FString::FromInt(MapRules.ChunkCountOY * MapRules.ChunkSize)));

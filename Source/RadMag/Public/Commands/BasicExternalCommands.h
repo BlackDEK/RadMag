@@ -5,20 +5,20 @@
 #include "CoreMinimal.h"
 #include "ExternalCommandsContexts.h"
 #include "Commands/BasicInternalCommands.h"
-#include "Entities/BasicEntities.h"
+#include "Entities/Entities.h"
 
 namespace BasicExternalCommands
 {
 	inline void CreateGameRules(const FCreateGameRulesContext& Context, UGameData* GameData)
 	{
 		auto GameRulesCreated = BasicInternalCommands::IsValidEntity
-			<true, BasicEntities::GameRules>(GameData);
+			<true, Entities::GameRules>(GameData);
 		check(!GameRulesCreated);
 		
-		const auto Entity = BasicInternalCommands::CreateEntity<BasicEntities::GameRules>(GameData);
+		const auto Entity = BasicInternalCommands::CreateEntity<Entities::GameRules>(GameData);
 		
 		auto [MapRules, RenderRules] = BasicInternalCommands::Get
-            <false, BasicEntities::GameRules, FMapRules, FRenderRules>(GameData, Entity);
+            <false, Entities::GameRules, FMapRules, FRenderRules>(GameData, Entity);
 		
 		MapRules.ChunkCountOX = Context.ChunkCountOX;
 		MapRules.ChunkCountOY = Context.ChunkCountOY;

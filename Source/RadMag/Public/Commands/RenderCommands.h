@@ -7,23 +7,22 @@
 #include "HexMetricsCommands.h"
 #include "RenderCommandsContexts.h"
 #include "Commands/BasicExternalCommands.h"
-#include "Entities/DistrictEntities.h"
 
 namespace RenderCommands
 {
 	inline void GenerateChunksCache(TArray<FChunkCache>& Caches, UGameData* GameData)
 	{
 		const auto [MapRules, RenderRules] = BasicInternalCommands::Get
-		<true, BasicEntities::GameRules, FMapRules, FRenderRules>
+		<true, Entities::GameRules, FMapRules, FRenderRules>
 		(GameData);
 		
 		TArray<entt::entity> Districts;
-		BasicInternalCommands::GetAllIds<DistrictEntities::District>(GameData, Districts);
+		BasicInternalCommands::GetAllIds<Entities::District>(GameData, Districts);
 		Caches.Init(FChunkCache(), MapRules.ChunkCountOX * MapRules.ChunkCountOY);		
 		for (auto District : Districts)
 		{
 			const auto DistrictData = BasicInternalCommands::Get
-            <false, DistrictEntities::District, FDistrictData>
+            <false, Entities::District, FDistrictData>
             (GameData, District);
 			const auto OffsetCoordinate = HexMetricsCommands::ConvertToOffsetCoordinate(DistrictData.CubeCoordinate);
 			const auto ChunkId = HexMetricsCommands::ConvertToChunkIndex(OffsetCoordinate, GameData);

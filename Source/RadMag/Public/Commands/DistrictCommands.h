@@ -6,7 +6,7 @@
 #include "BasicInternalCommands.h"
 #include "GameData.h"
 #include "HexMetricsCommands.h"
-#include "Entities/DistrictEntities.h"
+#include "Entities/Entities.h"
 
 namespace DistrictCommands
 {
@@ -14,7 +14,7 @@ namespace DistrictCommands
 	{
 		const auto CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(Location, GameData);
 		TArray<entt::entity> Ids;
-		BasicInternalCommands::GetAllIds<DistrictEntities::District>(GameData, Ids);
+		BasicInternalCommands::GetAllIds<Entities::District>(GameData, Ids);
 		if (Ids.Num() == 0)
 			return entt::null;
 
@@ -22,7 +22,7 @@ namespace DistrictCommands
 		for (auto Id : Ids)
 		{
 			const auto District = BasicInternalCommands::Get
-				<false, DistrictEntities::District, FDistrictData>
+				<false, Entities::District, FDistrictData>
 				(GameData, Id);
 
 			if (District.CubeCoordinate == CubeCoordinate)

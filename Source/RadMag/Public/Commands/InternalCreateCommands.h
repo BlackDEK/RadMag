@@ -4,24 +4,23 @@
 #include "BasicInternalCommands.h"
 #include "GameData.h"
 #include "HexMetricsCommands.h"
-#include "Entities/DistrictEntities.h"
 
 namespace InternalCreateCommands
 {
 	inline void CreateDistricts(UGameData* GameData)
 	{
 		const auto HexCreated = BasicInternalCommands::IsValidEntity
-			<true, DistrictEntities::District>(GameData);
+			<true, Entities::District>(GameData);
 		check(!HexCreated);
 
-		const auto MapRules = BasicInternalCommands::Get<true, BasicEntities::GameRules, FMapRules>(GameData);
+		const auto MapRules = BasicInternalCommands::Get<true, Entities::GameRules, FMapRules>(GameData);
 
 		for (uint32 Y = 0; Y < MapRules.ChunkCountOY * MapRules.ChunkSize; Y++)
 			for (uint32 X = 0; X < MapRules.ChunkCountOX * MapRules.ChunkSize; X++)
 			{
-				const auto Entity = BasicInternalCommands::CreateEntity<DistrictEntities::District>(GameData);
+				const auto Entity = BasicInternalCommands::CreateEntity<Entities::District>(GameData);
 				auto [BasicData, DistrictData] = BasicInternalCommands::Get
-				<false, DistrictEntities::District, FBasicData, FDistrictData>
+				<false, Entities::District, FBasicData, FDistrictData>
 				(GameData, Entity);
 				
 				BasicData.Id = Entity;
@@ -33,12 +32,12 @@ namespace InternalCreateCommands
 	inline void CreateWorldInfo(UGameData* GameData)
 	{
 		const auto WorldInfoCreated = BasicInternalCommands::IsValidEntity
-            <true, BasicEntities::WorldInfo>(GameData);
+            <true, Entities::WorldInfo>(GameData);
 		check(!WorldInfoCreated);		
 		
-		const auto Entity = BasicInternalCommands::CreateEntity<BasicEntities::WorldInfo>(GameData);
+		const auto Entity = BasicInternalCommands::CreateEntity<Entities::WorldInfo>(GameData);
 		decltype(auto) WorldInfo = BasicInternalCommands::Get
-                    <false, BasicEntities::WorldInfo, FWorldInfo>(GameData, Entity);
+                    <false, Entities::WorldInfo, FWorldInfo>(GameData, Entity);
 		WorldInfo.CurrentTurn = 0;		
 	}
 }
