@@ -1,11 +1,11 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Systems/DistrictInfoGetter.h"
-#include "Commands/HUDCommands.h"
-#include "Systems/BasicSystemFactory.h"
-#include "Systems/System.h"
-#include "Systems/Interfaces/AbstractWidget.h"
+#include "ECS/Systems/DistrictInfoGetter.h"
+#include "ECS/Commands/HUDCommands.h"
+#include "ECS/Systems/BasicSystemFactory.h"
+#include "ECS/Systems/System.h"
+#include "ECS/Systems/Interfaces/AbstractWidget.h"
 
 USystem* UDistrictInfoGetter::MakeSystemDistrictInfoGetter(TScriptInterface<IAbstractWidget> Widget,
                                                            const FVector& Location, UObject* Outer)

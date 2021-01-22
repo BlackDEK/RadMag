@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Systems/WorldInfoGetter.h"
-#include "GameData.h"
-#include "Commands/HUDCommands.h"
-#include "Systems/BasicSystemFactory.h"
+#include "ECS/Systems/WorldInfoGetter.h"
+#include "ECS/GameData.h"
+#include "ECS/Commands/HUDCommands.h"
+#include "ECS/Systems/BasicSystemFactory.h"
 
 USystem* UWorldInfoGetter::MakeSystemWorldInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)
 {

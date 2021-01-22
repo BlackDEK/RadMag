@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Systems/MapInfoGetter.h"
-#include "GameData.h"
-#include "Commands/HUDCommands.h"
-#include "Systems/BasicSystemFactory.h"
+#include "ECS/Systems/MapInfoGetter.h"
+#include "ECS/GameData.h"
+#include "ECS/Commands/HUDCommands.h"
+#include "ECS/Systems/BasicSystemFactory.h"
 
 USystem* UMapInfoGetter::MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidget> Widget, UObject* Outer)
 {

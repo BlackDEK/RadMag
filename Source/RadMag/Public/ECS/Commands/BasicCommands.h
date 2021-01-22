@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameData.h"
+#include "ECS/GameData.h"
 
 namespace RadMag
 {
@@ -32,7 +32,7 @@ namespace RadMag
 
 }
 
-namespace BasicInternalCommands
+namespace BasicCommands
 {
 	template <typename EntityType>
 	inline entt::entity CreateEntity(UGameData* GameData)

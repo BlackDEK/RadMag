@@ -3,25 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameData.h"
+#include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
 #include "RenderCommandsContexts.h"
-#include "Commands/BasicExternalCommands.h"
 
 namespace RenderCommands
 {
 	inline void GenerateChunksCache(TArray<FChunkCache>& Caches, UGameData* GameData)
 	{
-		const auto [MapRules, RenderRules] = BasicInternalCommands::Get
+		const auto [MapRules, RenderRules] = BasicCommands::Get
 		<true, Entities::GameRules, FMapRules, FRenderRules>
 		(GameData);
 		
 		TArray<entt::entity> Districts;
-		BasicInternalCommands::GetAllIds<Entities::District>(GameData, Districts);
+		BasicCommands::GetAllIds<Entities::District>(GameData, Districts);
 		Caches.Init(FChunkCache(), MapRules.ChunkCountOX * MapRules.ChunkCountOY);		
 		for (auto District : Districts)
 		{
-			const auto DistrictData = BasicInternalCommands::Get
+			const auto DistrictData = BasicCommands::Get
             <false, Entities::District, FDistrictData>
             (GameData, District);
 			const auto OffsetCoordinate = HexMetricsCommands::ConvertToOffsetCoordinate(DistrictData.CubeCoordinate);

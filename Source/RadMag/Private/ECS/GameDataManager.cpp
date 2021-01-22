@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "GameDataManager.h"
-#include "GameData.h"
-#include "Systems/System.h"
+#include "ECS/GameDataManager.h"
+#include "ECS/GameData.h"
+#include "ECS/Systems/System.h"
 
 
 UGameDataManager::UGameDataManager()

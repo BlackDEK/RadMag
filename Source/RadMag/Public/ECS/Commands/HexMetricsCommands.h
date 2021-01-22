@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasicInternalCommands.h"
-#include "GameData.h"
-#include "Entities/Entities.h"
+#include "BasicCommands.h"
+#include "ECS/GameData.h"
+#include "ECS/Entities/Entities.h"
 
 namespace HexMetricsCommands
 {
@@ -26,13 +26,13 @@ namespace HexMetricsCommands
 
 	inline float GetInnerDiameter(UGameData* GameData)
 	{
-		const auto RenderRules = BasicInternalCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
+		const auto RenderRules = BasicCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
 		return 2.f * RenderRules.OuterRadius * RenderRules.OuterToInner;
 	}
 
 	inline FVector ConvertToRealCoordinate(const FIntVector& OffsetCoordinate, UGameData* GameData)
 	{		
-		const auto RenderRules = BasicInternalCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
+		const auto RenderRules = BasicCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
 		const auto X = static_cast<float>((OffsetCoordinate.X + OffsetCoordinate.Y * 0.5f - OffsetCoordinate.Y / 2) *
 			GetInnerDiameter(GameData));
 		const auto Y = static_cast<float>(OffsetCoordinate.Y * (RenderRules.OuterRadius * 1.5f));
@@ -42,7 +42,7 @@ namespace HexMetricsCommands
 
 	inline FIntVector ConvertToCubeCoordinate(const FVector& RealCoordinate, UGameData* GameData)
 	{		
-		const auto RenderRules = BasicInternalCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
+		const auto RenderRules = BasicCommands::Get<true, Entities::GameRules, FRenderRules>(GameData);
 		float X = RealCoordinate.X / GetInnerDiameter(GameData);
 		float Y = -X;
 		const float Offset = RealCoordinate.Y / (RenderRules.OuterRadius * 3.0f);
@@ -67,7 +67,7 @@ namespace HexMetricsCommands
 
 	inline uint32 ConvertToChunkIndex(const FIntVector OffsetCoordinate, UGameData* GameData)
 	{		
-		const auto MapRules = BasicInternalCommands::Get<true, Entities::GameRules, FMapRules>(GameData);
+		const auto MapRules = BasicCommands::Get<true, Entities::GameRules, FMapRules>(GameData);
 		const int32 ChunkX = OffsetCoordinate.X / MapRules.ChunkSize;
 		const int32 ChunkY = OffsetCoordinate.Y / MapRules.ChunkSize;
 		return static_cast<uint32>(ChunkX + ChunkY * MapRules.ChunkCountOX);

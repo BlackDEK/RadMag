@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "Commands/ExternalCommandsContexts.h"
+#include "ECS/Commands/ExternalCommandsContexts.h"
 #include "UObject/NoExportTypes.h"
 #include "GenerateWorldSystem.generated.h"
 

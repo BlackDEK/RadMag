@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasicInternalCommands.h"
-#include "GameData.h"
+#include "BasicCommands.h"
+#include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
-#include "Entities/Entities.h"
+#include "ECS/Entities/Entities.h"
 
 namespace DistrictCommands
 {
@@ -14,14 +14,14 @@ namespace DistrictCommands
 	{
 		const auto CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(Location, GameData);
 		TArray<entt::entity> Ids;
-		BasicInternalCommands::GetAllIds<Entities::District>(GameData, Ids);
+		BasicCommands::GetAllIds<Entities::District>(GameData, Ids);
 		if (Ids.Num() == 0)
 			return entt::null;
 
 		entt::entity Result = entt::null;
 		for (auto Id : Ids)
 		{
-			const auto District = BasicInternalCommands::Get
+			const auto District = BasicCommands::Get
 				<false, Entities::District, FDistrictData>
 				(GameData, Id);
 

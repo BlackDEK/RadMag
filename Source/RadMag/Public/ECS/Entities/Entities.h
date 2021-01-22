@@ -3,10 +3,10 @@
 #pragma once
 #include "core/type_traits.hpp"
 #include "entt.hpp"
-#include "Components/BasicComponents.h"
-#include "Components/GameRulesComponets.h"
-#include "Components/WorldInfoComponents.h"
-#include "Components/DistrictComponents.h"
+#include "ECS/Components/BasicComponents.h"
+#include "ECS/Components/GameRulesComponets.h"
+#include "ECS/Components/WorldInfoComponents.h"
+#include "ECS/Components/DistrictComponents.h"
 
 namespace Entities
 {
