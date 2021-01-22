@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Entities/GameRules.h"
 #include "entity/registry.hpp"
 #include "Interfaces/AbstractMap.h"
 #include "UObject/NoExportTypes.h"
