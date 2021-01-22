@@ -1,17 +1,15 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "BasicInternalCommands.h"
 #include "GameData.h"
-#include "Entities/WorldInfo.h"
+#include "Entities/BasicEntities.h"
 
 namespace TurnCommands
 {
 	inline void IncrementingTurn(UGameData* GameData)
 	{
-		auto& World = GameData->World;
-		const auto Id = World.view<FWorldInfo>().front();
-		check(Id != entt::null);
-		auto& WorldInfo = World.get<FWorldInfo>(Id);
+		decltype(auto) WorldInfo = BasicInternalCommands::Get<true, BasicEntities::WorldInfo, FWorldInfo>(GameData);
 		++WorldInfo.CurrentTurn;
 	}
 }

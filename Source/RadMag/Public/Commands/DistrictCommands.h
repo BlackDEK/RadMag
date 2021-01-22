@@ -3,33 +3,34 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-
 #include "BasicInternalCommands.h"
 #include "GameData.h"
 #include "HexMetricsCommands.h"
-#include "Entities/District.h"
+#include "Entities/DistrictEntities.h"
 
 namespace DistrictCommands
 {
-	inline TPair<bool, FDistrict> GetDistrict(const FVector& Location, UGameData* GameData)
+	inline entt::entity GetDistrictId(const FVector& Location, UGameData* GameData)
 	{
-		auto& World = GameData->World;
 		const auto CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(Location, GameData);
-		TArray<FDistrict> Districts;
-		BasicInternalCommands::GetAll(Districts, GameData);
-		entt::entity Id = entt::null;
-		for (auto& District : Districts)
+		TArray<entt::entity> Ids;
+		BasicInternalCommands::GetAllIds<DistrictEntities::District>(GameData, Ids);
+		if (Ids.Num() == 0)
+			return entt::null;
+
+		entt::entity Result = entt::null;
+		for (auto Id : Ids)
 		{
+			const auto District = BasicInternalCommands::Get
+				<false, DistrictEntities::District, FDistrictData>
+				(GameData, Id);
+
 			if (District.CubeCoordinate == CubeCoordinate)
 			{
-				Id = District.BasicData.Id;
+				Result = Id;
 				break;
 			}
-		}		
-		if (!World.valid(Id))
-			return TPair<bool, FDistrict>(false, FDistrict());
-		const auto Entity = World.get<FDistrict>(Id);
-		return TPair<bool, FDistrict>(true, Entity);
+		}
+		return Result;
 	}
 }
