@@ -5,63 +5,79 @@
 #include "CoreMinimal.h"
 #include "GameData.h"
 
+namespace RadMag
+{
+	template <typename EntityType, std::size_t Index>
+	struct AddComponent : public AddComponent<EntityType, Index - 1>
+	{
+		static constexpr void Execute(UGameData* GameData, entt::entity Entity)
+		{
+			auto& World = GameData->World;
+			using Type = entt::type_list_element_t<Index, EntityType>;
+			World.emplace<Type>(Entity, Type());
+			AddComponent<EntityType, Index - 1>::Execute(GameData, Entity);
+		}
+	};
+
+	template <typename EntityType>
+	struct AddComponent<EntityType, 0>
+	{
+		static constexpr void Execute(UGameData* GameData, entt::entity Entity)
+		{
+			auto& World = GameData->World;
+			using Type = entt::type_list_element_t<0, EntityType>;
+			World.emplace<Type>(Entity, Type());
+		}
+	};
+
+}
+
 namespace BasicInternalCommands
 {
-	template <typename T>
-	inline void CreateEntity(const uint32& Count, UGameData* GameData)
+	template <typename EntityType>
+	inline entt::entity CreateEntity(UGameData* GameData)
 	{
 		auto& World = GameData->World;
-		for (uint32 Index = 0; Index < Count; Index++)
+		const auto Entity = World.create();
+		RadMag::AddComponent<EntityType, EntityType::size - 1>::Execute(GameData, Entity);
+		return Entity;
+	}
+
+	template <bool GetFirst, typename EntityType>
+	inline bool IsValidEntity(UGameData* GameData, entt::entity Id = entt::null)
+	{
+		auto& World = GameData->World;
+		using FirstComponent = entt::type_list_element_t<0, EntityType>;
+		if constexpr (GetFirst)
+			Id = World.view<FirstComponent>().front();
+		return World.valid(Id) && World.has<FirstComponent>(Id);
+	}
+
+	template <bool GetFirst, typename EntityType, typename... ComponentType>
+	inline decltype(auto) Get(UGameData* GameData, entt::entity Entity = entt::null)
+	{
+		auto& World = GameData->World;
+		if constexpr (GetFirst)
 		{
-			const auto Entity = World.create();
-			World.emplace<T>(Entity);
+			check(Entity == entt::null);			
+			using FirstComponent = entt::type_list_element_t<0, EntityType>;
+			Entity = World.view<FirstComponent>().front();
 		}
+		check(World.valid(Entity));
+		check(World.has<ComponentType...>(Entity));
+
+		return World.get<ComponentType...>(Entity);
 	}
 
-	template <typename T>
-	inline TPair<bool, T> Get(UGameData* GameData)
+	template <typename EntityType>
+	inline void GetAllIds(UGameData* GameData, TArray<entt::entity>& Result)
 	{
 		auto& World = GameData->World;
-		const auto Id = World.view<T>().front();
-		if (Id == entt::null)
-			return TPair<bool, T>(false, T());
-		const auto Entity = World.get<T>(Id);
-		return TPair<bool, T>(true, Entity);
-	}
-
-	template <typename T>
-	inline TPair<bool, T> Get(const entt::entity& Id, UGameData* GameData)
-	{
-		auto& World = GameData->World;
-		if (World.valid(Id))
-			return TPair<bool, T>(false, T());
-		if (World.has<T>(Id))
-			return TPair<bool, T>(false, T());
-		const auto Entity = World.get<T>(Id);
-		return TPair<bool, T>(true, Entity);
-	}
-
-	template <typename T>
-	inline void GetAll(TArray<T>& Result, UGameData* GameData)
-	{
-		auto& World = GameData->World;
-		const auto Ids = World.view<T>();
+		using FirstComponent = entt::type_list_element_t<0, EntityType>;
+		const auto Ids = World.view<FirstComponent>();
 		if (Ids.front() == entt::null)
 			return;
 		for (auto Id : Ids)
-			Result.Add(World.get<T>(Id));
-	}
-
-	template <typename T>
-    inline entt::entity GetId(const FGuid& Guid, UGameData* GameData)
-	{
-		auto& World = GameData->World;
-		const auto Ids = World.view<T>();
-		if (Ids.front() == entt::null)
-			return entt::null;
-		for (auto Id : Ids)
-			if(Guid == World.get<T>(Id).Guid)
-				return Id;
-		return entt::null;
+			Result.Add(Id);
 	}
 }
