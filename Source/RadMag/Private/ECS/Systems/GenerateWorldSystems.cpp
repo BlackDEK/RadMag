@@ -11,12 +11,13 @@ USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FCreateGameRulesCon
 {
 	const auto GenerateWorldSystem = [GenerateWorldContext](UGameData* GameData)
 	{
-		Commands::CreateGameRules(GenerateWorldContext, GameData);
-		Commands::CreateDistricts(GameData);
-		Commands::CreateWorldInfo(GameData);
-		Commands::CreateResourcesAndBuildings(GameData);
-		Commands::SetResources(GameData);
-		Commands::SetCities(GameData);
+		auto& World = GameData->World;
+		Commands::CreateGameRules(GenerateWorldContext, World);
+		Commands::CreateDistricts(World);
+		Commands::CreateWorldInfo(World);
+		Commands::CreateResourcesAndBuildings(World);
+		Commands::SetResources(World);
+		Commands::SetCities(World);
 	};
 	return UBasicSystemFactory::CreateSystem(GenerateWorldSystem, Outer);
 }

@@ -10,7 +10,8 @@ USystem* UWorldInfoGetter::MakeSystemWorldInfoGetter(TScriptInterface<IAbstractW
 {
 	const auto WorldInfoGetter = [Widget](UGameData* GameData)
 	{
-		const auto Text = Commands::WorldInfoGetter(GameData);
+		auto& World = GameData->World;
+		const auto Text = Commands::WorldInfoGetter( World);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	return UBasicSystemFactory::CreateSystem(WorldInfoGetter, Outer);

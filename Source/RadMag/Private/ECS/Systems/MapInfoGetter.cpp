@@ -10,7 +10,8 @@ USystem* UMapInfoGetter::MakeSystemMapInfoGetter(TScriptInterface<IAbstractWidge
 {
 	const auto MapInfoGetter = [Widget](UGameData* GameData)
 	{
-		const auto Text = Commands::MapInfoGetter(GameData);
+		auto& World = GameData->World;
+		const auto Text = Commands::MapInfoGetter(World);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	return UBasicSystemFactory::CreateSystem(MapInfoGetter, Outer);
