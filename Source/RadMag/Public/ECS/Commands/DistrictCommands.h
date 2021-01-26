@@ -3,33 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasicCommands.h"
-#include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
-#include "ECS/Entities/Entities.h"
+#include "ECS/Entities/DistrictGroups.h"
 
-namespace DistrictCommands
+namespace Commands
 {
-	inline entt::entity GetDistrictId(const FVector& Location, UGameData* GameData)
+	inline entt::entity GetDistrictId(const FVector& Location, entt::registry& World)
 	{
-		const auto CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(Location, GameData);
-		TArray<entt::entity> Ids;
-		BasicCommands::GetAllIds<Entities::District>(GameData, Ids);
-		if (Ids.Num() == 0)
-			return entt::null;
+		const auto FindPosition = ConvertToCubeCoordinate(Location, World);
 
 		entt::entity Result = entt::null;
-		for (auto Id : Ids)
-		{
-			const auto District = BasicCommands::Get
-				<false, Entities::District, FDistrictData>
-				(GameData, Id);
-
-			if (District.CubeCoordinate == CubeCoordinate)
+		auto DistrictView = Commands::GetView<Groups::BasicType, Groups::District>(World);	
+		for (auto District : DistrictView)
+		{			
+			const auto [EntityId, PositionComponent] = DistrictView.get
+			<FEntityId, FPosition>(District);
+			if (PositionComponent.Value == FindPosition)
 			{
-				Result = Id;
+				Result = EntityId.Value;
 				break;
-			}
+			}					
 		}
 		return Result;
 	}

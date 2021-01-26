@@ -3,81 +3,90 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ECS/GameData.h"
+#include "BasicCommands.h"
 
 namespace RadMag
 {
-	template <typename EntityType, std::size_t Index>
-	struct AddComponent : public AddComponent<EntityType, Index - 1>
+	template <typename... ComponentType>
+	struct AddComponents
 	{
-		static constexpr void Execute(UGameData* GameData, entt::entity Entity)
+		static decltype(auto) Execute(entt::registry& World, entt::entity Entity)
 		{
-			auto& World = GameData->World;
-			using Type = entt::type_list_element_t<Index, EntityType>;
-			World.emplace<Type>(Entity, Type());
-			AddComponent<EntityType, Index - 1>::Execute(GameData, Entity);
+			(World.emplace<ComponentType>(Entity), ...);
 		}
 	};
 
-	template <typename EntityType>
-	struct AddComponent<EntityType, 0>
+	template <typename... ComponentType>
+    struct GetView
 	{
-		static constexpr void Execute(UGameData* GameData, entt::entity Entity)
+		static decltype(auto) Execute(entt::registry& World, entt::entity Entity)
 		{
-			auto& World = GameData->World;
-			using Type = entt::type_list_element_t<0, EntityType>;
-			World.emplace<Type>(Entity, Type());
+			return World.view<ComponentType...>();
 		}
 	};
 
+	template <typename Group, template<typename...> class Functor, class T, T... Ints>
+	static decltype(auto) IterateImpl(entt::registry& World, entt::entity Entity,
+	                                  std::integer_sequence<T, Ints...>&& Seq)
+	{
+		return Functor<entt::type_list_element_t<Ints, Group>...>::Execute(World, Entity);
+	}
+
+	template <typename Group, template<typename...> class Functor>
+	static decltype(auto) Iterate(entt::registry& World, entt::entity Entity)
+	{
+		return IterateImpl<Group, Functor>(World, Entity, std::make_index_sequence<Group::size>{});
+	}
 }
 
-namespace BasicCommands
+namespace Commands
 {
-	template <typename EntityType>
-	inline entt::entity CreateEntity(UGameData* GameData)
+	template <bool CreateNewEntity, typename... Group>
+    entt::entity AddGroups(entt::registry& World, entt::entity Entity = entt::null)
 	{
-		auto& World = GameData->World;
-		const auto Entity = World.create();
-		RadMag::AddComponent<EntityType, EntityType::size - 1>::Execute(GameData, Entity);
+		if constexpr (CreateNewEntity)
+            Entity = World.create();
+		check(World.valid(Entity));
+		(RadMag::Iterate<Group, RadMag::AddComponents>(World, Entity), ...);
 		return Entity;
 	}
 
-	template <bool GetFirst, typename EntityType>
-	inline bool IsValidEntity(UGameData* GameData, entt::entity Id = entt::null)
+	template <typename... Group>
+	decltype(auto) GetView(entt::registry& World)
 	{
-		auto& World = GameData->World;
-		using FirstComponent = entt::type_list_element_t<0, EntityType>;
-		if constexpr (GetFirst)
-			Id = World.view<FirstComponent>().front();
-		return World.valid(Id) && World.has<FirstComponent>(Id);
+		return (RadMag::Iterate<Group, RadMag::GetView>(World, entt::null) | ...);
 	}
 
-	template <bool GetFirst, typename EntityType, typename... ComponentType>
-	inline decltype(auto) Get(UGameData* GameData, entt::entity Entity = entt::null)
+	template <typename... Group>
+    bool IsValidGroups(entt::registry& World)
 	{
-		auto& World = GameData->World;
+		auto Entity = Commands::GetView<Group...>(World).front();
+		return Entity != entt::null;
+	}
+
+	template <bool GetFirst, typename... Group>
+	decltype(auto) GetGroupComponents(entt::registry& World, entt::entity Entity = entt::null)
+	{
+		auto View = Commands::GetView<Group...>(World);
 		if constexpr (GetFirst)
 		{
-			check(Entity == entt::null);			
-			using FirstComponent = entt::type_list_element_t<0, EntityType>;
-			Entity = World.view<FirstComponent>().front();
+			check(Entity == entt::null);
+			Entity = View.front();
 		}
-		check(World.valid(Entity));
-		check(World.has<ComponentType...>(Entity));
-
-		return World.get<ComponentType...>(Entity);
+		check(Entity != entt::null);
+		return View.get(Entity);
 	}
 
-	template <typename EntityType>
-	inline void GetAllIds(UGameData* GameData, TArray<entt::entity>& Result)
+	template <bool GetFirst, typename... Components>
+    decltype(auto) GetComponents(entt::registry& World, entt::entity Entity = entt::null)
 	{
-		auto& World = GameData->World;
-		using FirstComponent = entt::type_list_element_t<0, EntityType>;
-		const auto Ids = World.view<FirstComponent>();
-		if (Ids.front() == entt::null)
-			return;
-		for (auto Id : Ids)
-			Result.Add(Id);
+		auto View = World.view<Components...>();
+		if constexpr (GetFirst)
+		{
+			check(Entity == entt::null);
+			Entity = View.front();
+		}
+		check(Entity != entt::null);
+		return View.get(Entity);
 	}
 }

@@ -6,37 +6,33 @@
 #include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
 #include "RenderCommandsContexts.h"
+#include "ECS/Entities/DistrictGroups.h"
 
-namespace RenderCommands
+namespace Commands
 {
-	inline void GenerateChunksCache(TArray<FChunkCache>& Caches, UGameData* GameData)
+	inline void GenerateChunksCache(TArray<FChunkCache>& Caches, entt::registry& World)
 	{
-		const auto [MapRules, RenderRules] = BasicCommands::Get
-		<true, Entities::GameRules, FMapRules, FRenderRules>
-		(GameData);
-		
-		TArray<entt::entity> Districts;
-		BasicCommands::GetAllIds<Entities::District>(GameData, Districts);
-		Caches.Init(FChunkCache(), MapRules.ChunkCountOX * MapRules.ChunkCountOY);		
-		for (auto District : Districts)
-		{
-			const auto DistrictData = BasicCommands::Get
-            <false, Entities::District, FDistrictData>
-            (GameData, District);
-			const auto OffsetCoordinate = HexMetricsCommands::ConvertToOffsetCoordinate(DistrictData.CubeCoordinate);
-			const auto ChunkId = HexMetricsCommands::ConvertToChunkIndex(OffsetCoordinate, GameData);
-			const FVector Center = HexMetricsCommands::ConvertToRealCoordinate(OffsetCoordinate, GameData);
+		const auto [ChunkCountOX, ChunkCountOY, ChunkSize, OuterToInner, OuterRadius, Corners]
+		= Commands::GetGroupComponents<true, Groups::MapRules, Groups::RenderRules>(World);
+		Caches.Init(FChunkCache(), ChunkCountOX.Value * ChunkCountOY.Value);
+
+		auto DistrictView = Commands::GetView<Groups::District>(World);	
+		for (auto District : DistrictView)
+		{			
+			const auto Position = DistrictView.get<FPosition>(District);
+			const auto OffsetCoordinate = ConvertToOffsetCoordinate(Position.Value);
+			const auto ChunkId = ConvertToChunkIndex(OffsetCoordinate, World);
+			const FVector Center = ConvertToRealCoordinate(OffsetCoordinate, World);			
 			for (int32 Index = 0; Index < 6; Index++)
 			{
 				int32 VertexIndex = Caches[ChunkId].Vertices.Num();
 				Caches[ChunkId].Vertices.Add(Center);
-				Caches[ChunkId].Vertices.Add(Center + RenderRules.Corners[Index]);
-				Caches[ChunkId].Vertices.Add(Center + RenderRules.Corners[Index + 1]);
+				Caches[ChunkId].Vertices.Add(Center + Corners.Value[Index]);
+				Caches[ChunkId].Vertices.Add(Center + Corners.Value[Index + 1]);
 				Caches[ChunkId].Triangles.Add(VertexIndex);
 				Caches[ChunkId].Triangles.Add(VertexIndex + 1);
 				Caches[ChunkId].Triangles.Add(VertexIndex + 2);
-			}
-			
+			}			
 		}
 	}
 }

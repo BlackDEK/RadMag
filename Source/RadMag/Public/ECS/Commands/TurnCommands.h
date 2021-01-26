@@ -3,13 +3,55 @@
 #pragma once
 #include "BasicCommands.h"
 #include "ECS/GameData.h"
-#include "ECS/Entities/Entities.h"
+#include "ECS/Entities/BasicGroups.h"
 
-namespace TurnCommands
+namespace Commands
 {
-	inline void IncrementingTurn(UGameData* GameData)
+	inline void IncrementingTurn(entt::registry& World)
 	{
-		decltype(auto) WorldInfo = BasicCommands::Get<true, Entities::WorldInfo, FWorldInfo>(GameData);
-		++WorldInfo.CurrentTurn;
+		auto [CurrentTurn] =
+                    Commands::GetGroupComponents<true, Groups::WorldInfo>(World);
+		++CurrentTurn.Value;
+	}
+	
+	//Рефактор
+	inline void AddResourceInStorage(entt::registry& World)
+	{
+		/*
+		TArray<entt::entity> DistrictWithCity;
+		BasicCommands::GetAllIds<Types::DistrictWithCity>(GameData,DistrictWithCity);
+		for(auto District : DistrictWithCity)
+		{
+			auto [DistrictData, CityData] = BasicCommands::Get
+                <false, Types::District, FDistrictData, FCityData>
+                (GameData, District);
+			for (auto Building : CityData.Buildings)
+			{
+				if (Building.Key == entt::null)
+					break;
+
+				if(BasicCommands::IsValidEntityType<false, Types::Mine>(GameData, Building.Key))
+				{
+					const auto BuildingBasicData = BasicCommands::Get
+                    <false, Types::Mine, FBasicData>
+                    (GameData, Building.Key);					
+				}
+
+				if(BasicCommands::IsValidEntityType<false, Types::Factory>(GameData, Building.Key))
+				{
+					const auto BuildingBasicData = BasicCommands::Get
+                    <false, Types::Factory, FBasicData>
+                    (GameData, Building.Key);					
+				}
+
+				if(BasicCommands::IsValidEntityType<false, Types::Storage>(GameData, Building.Key))
+				{
+					const auto BuildingBasicData = BasicCommands::Get
+                    <false, Types::Storage, FBasicData>
+                    (GameData, Building.Key);				
+				}
+			}
+		}
+		*/
 	}
 }

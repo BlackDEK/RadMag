@@ -2,73 +2,87 @@
 
 #pragma once
 #include "BasicCommands.h"
-#include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
+#include "ECS/Entities/BasicGroups.h"
+#include "ECS/Entities/DistrictGroups.h"
+#include "ECS/Entities/GameRulesGroups.h"
 
-namespace CreateCommands
+namespace Commands
 {
-	inline void CreateGameRules(const FCreateGameRulesContext& Context, UGameData* GameData)
+	inline void CreateGameRules(const FCreateGameRulesContext& Context, entt::registry& World)
 	{
-		auto GameRulesCreated = BasicCommands::IsValidEntity
-            <true, Entities::GameRules>(GameData);
-		check(!GameRulesCreated);
-		
-		const auto Entity = BasicCommands::CreateEntity<Entities::GameRules>(GameData);
-		
-		auto [MapRules, RenderRules] = BasicCommands::Get
-            <false, Entities::GameRules, FMapRules, FRenderRules>(GameData, Entity);
-		
-		MapRules.ChunkCountOX = Context.ChunkCountOX;
-		MapRules.ChunkCountOY = Context.ChunkCountOY;
-		MapRules.ChunkSize = Context.ChunkSize;
+		check(!Commands::IsValidGroups<Groups::MapRules>(World));
+		check(!Commands::IsValidGroups<Groups::RenderRules>(World));
+		check(!Commands::IsValidGroups<Groups::DistrictRules>(World));
 
-		const auto OuterToInner = 0.866025404f;
-		const auto OuterRadius = 10.f;
-		const auto InnerRadius = OuterRadius * OuterToInner;
-		
-		RenderRules.OuterToInner = OuterToInner;
-		RenderRules.OuterRadius = OuterRadius;
+		const auto Entity = Commands::AddGroups
+			<true, Groups::BasicType, Groups::MapRules, Groups::RenderRules, Groups::DistrictRules>
+			(World);
 
-		RenderRules.Corners[0] = FVector(0.f, OuterRadius, 0.f);
-		RenderRules.Corners[1] = FVector(InnerRadius, 0.5f * OuterRadius, 0.f);
-		RenderRules.Corners[2] = FVector(InnerRadius, -0.5f * OuterRadius, 0.f);
-		RenderRules.Corners[3] = FVector(0.f, -OuterRadius, 0.f);
-		RenderRules.Corners[4] = FVector(-InnerRadius, -0.5f * OuterRadius, 0.f);
-		RenderRules.Corners[5] = FVector(-InnerRadius, 0.5f * OuterRadius, 0.f);
-		RenderRules.Corners[6] = FVector(0.f, OuterRadius, 0.f);
+		auto [EntityId, EntityName, ChunkCountOX, ChunkCountOY, ChunkSize, OuterToInner, OuterRadius, Corners] =
+			Commands::GetGroupComponents<true, Groups::BasicType, Groups::MapRules, Groups::RenderRules>(World);
+
+		EntityId.Value = Entity;
+		EntityName.Value = FName(TEXT("GameRules"));
+
+		ChunkCountOX.Value = Context.ChunkCountOX;
+		ChunkCountOY.Value = Context.ChunkCountOY;
+		ChunkSize.Value = Context.ChunkSize;
+
+		const auto LocalOuterToInner = 0.866025404f;
+		const auto LocalOuterRadius = 10.f;
+		const auto InnerRadius = LocalOuterRadius * LocalOuterToInner;
+		TStaticArray<FVector, 7> LocalCorners;
+		LocalCorners[0] = FVector(0.f, LocalOuterRadius, 0.f);
+		LocalCorners[1] = FVector(InnerRadius, 0.5f * LocalOuterRadius, 0.f);
+		LocalCorners[2] = FVector(InnerRadius, -0.5f * LocalOuterRadius, 0.f);
+		LocalCorners[3] = FVector(0.f, -LocalOuterRadius, 0.f);
+		LocalCorners[4] = FVector(-InnerRadius, -0.5f * LocalOuterRadius, 0.f);
+		LocalCorners[5] = FVector(-InnerRadius, 0.5f * LocalOuterRadius, 0.f);
+		LocalCorners[6] = FVector(0.f, LocalOuterRadius, 0.f);
+
+		OuterToInner.Value = LocalOuterToInner;
+		OuterRadius.Value = LocalOuterRadius;
+		Corners.Value = LocalCorners;
 	}
-	
-	inline void CreateDistricts(UGameData* GameData)
+
+	inline void CreateDistricts(entt::registry& World)
 	{
-		const auto HexCreated = BasicCommands::IsValidEntity
-			<true, Entities::District>(GameData);
-		check(!HexCreated);
+		check(Commands::IsValidGroups<Groups::MapRules>(World));
+		check(!Commands::IsValidGroups<Groups::District>(World));
 
-		const auto MapRules = BasicCommands::Get<true, Entities::GameRules, FMapRules>(GameData);
+		const auto [ChunkCountOX, ChunkCountOY, ChunkSize] =
+			Commands::GetGroupComponents<true, Groups::MapRules>(World);
 
-		for (uint32 Y = 0; Y < MapRules.ChunkCountOY * MapRules.ChunkSize; Y++)
-			for (uint32 X = 0; X < MapRules.ChunkCountOX * MapRules.ChunkSize; X++)
+		for (uint32 Y = 0; Y < ChunkCountOY.Value * ChunkSize.Value; Y++)
+			for (uint32 X = 0; X < ChunkCountOX.Value * ChunkSize.Value; X++)
 			{
-				const auto Entity = BasicCommands::CreateEntity<Entities::District>(GameData);
-				auto [BasicData, DistrictData] = BasicCommands::Get
-				<false, Entities::District, FBasicData, FDistrictData>
-				(GameData, Entity);
-				
-				BasicData.Id = Entity;
-				BasicData.Name = FName("District_" + FString::FromInt(X) + "_" + FString::FromInt(Y));
-				DistrictData.CubeCoordinate = HexMetricsCommands::ConvertToCubeCoordinate(FIntVector(X, Y, 0));
+				const auto Entity = Commands::AddGroups
+					<true, Groups::BasicType, Groups::District>
+					(World);
+
+				const auto [EntityId, EntityName, Position, DistrictResources] =
+					Commands::GetGroupComponents<false, Groups::BasicType, Groups::District>(World, Entity);
+
+				EntityId.Value = Entity;
+				EntityName.Value = FName("District_" + FString::FromInt(X) + "_" + FString::FromInt(Y));
+				Position.Value = ConvertToCubeCoordinate(FIntVector(X, Y, 0));
 			}
 	}
 
-	inline void CreateWorldInfo(UGameData* GameData)
+	inline void CreateWorldInfo(entt::registry& World)
 	{
-		const auto WorldInfoCreated = BasicCommands::IsValidEntity
-            <true, Entities::WorldInfo>(GameData);
-		check(!WorldInfoCreated);		
-		
-		const auto Entity = BasicCommands::CreateEntity<Entities::WorldInfo>(GameData);
-		decltype(auto) WorldInfo = BasicCommands::Get
-                    <false, Entities::WorldInfo, FWorldInfo>(GameData, Entity);
-		WorldInfo.CurrentTurn = 0;		
+		check(!Commands::IsValidGroups<Groups::WorldInfo>(World));
+
+		const auto Entity = Commands::AddGroups
+			<true, Groups::BasicType, Groups::WorldInfo>
+			(World);
+
+		const auto [EntityId, EntityName, CurrentTurn] =
+                    Commands::GetGroupComponents<false, Groups::BasicType,  Groups::WorldInfo>(World, Entity);
+
+		EntityId.Value = Entity;
+		EntityName.Value = FName(TEXT("WorldInfo"));
+		CurrentTurn.Value = 0;
 	}
 }
