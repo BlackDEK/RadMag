@@ -11,7 +11,7 @@ USystem* UIncrementingTurnSystem::MakeSystemIncrementingTurn(UObject* Outer)
 {
 	const auto IncrementingTurn = [](UGameData* GameData)
 	{
-		TurnCommands::IncrementingTurn(GameData);
+		Commands::IncrementingTurn(GameData);
 	};
 	return UBasicSystemFactory::CreateSystem(IncrementingTurn, Outer);
 }

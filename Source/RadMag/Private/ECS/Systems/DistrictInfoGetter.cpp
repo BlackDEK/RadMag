@@ -12,7 +12,7 @@ USystem* UDistrictInfoGetter::MakeSystemDistrictInfoGetter(TScriptInterface<IAbs
 {
 	const auto DistrictInfoGetter = [Widget, Location](UGameData* GameData)
 	{
-		const auto Text = HUDCommands::DistrictInfoGetter(Location, GameData);
+		const auto Text = Commands::DistrictInfoGetter_New(Location, GameData);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	return UBasicSystemFactory::CreateSystem(DistrictInfoGetter, Outer);

@@ -3,6 +3,7 @@
 #include "ECS/Systems/GenerateWorldSystem.h"
 #include "ECS/GameData.h"
 #include "ECS/Commands/CreateCommands.h"
+#include "ECS/Commands/HardCodeCommands.h"
 #include "ECS/Systems/BasicSystemFactory.h"
 
 USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FCreateGameRulesContext& GenerateWorldContext,
@@ -10,9 +11,12 @@ USystem* UGenerateWorldSystem::MakeSystemGenerateWorld(const FCreateGameRulesCon
 {
 	const auto GenerateWorldSystem = [GenerateWorldContext](UGameData* GameData)
 	{
-		CreateCommands::CreateGameRules(GenerateWorldContext, GameData);
-		CreateCommands::CreateDistricts(GameData);
-		CreateCommands::CreateWorldInfo(GameData);
+		Commands::CreateGameRules(GenerateWorldContext, GameData);
+		Commands::CreateDistricts(GameData);
+		Commands::CreateWorldInfo(GameData);
+		Commands::CreateResourcesAndBuildings(GameData);
+		Commands::SetResources(GameData);
+		Commands::SetCities(GameData);
 	};
 	return UBasicSystemFactory::CreateSystem(GenerateWorldSystem, Outer);
 }
