@@ -3,9 +3,7 @@
 #pragma once
 #include "CoreMinimal.h"
 
-/** */
-struct FWorldInfo
+struct FCurrentTurn
 {
-	/** */
-	uint32 CurrentTurn;
+	uint32 Value;
 };

@@ -6,29 +6,57 @@
 #include "Containers/StaticArray.h"
 #include "GameRulesComponets.h"
 
-struct FDistrictData
-{    	
-    FIntVector CubeCoordinate;
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxResourcesInDistrict> Resources;    
+struct FDistrictResources
+{ 
+    TStaticArray<TTuple<entt::entity, int32>, FMaxResourcesInDistrict::Value> Value;
+
+    FDistrictResources()
+    {
+        for(decltype(auto) Element : Value)
+            Element = MakeTuple(entt::null, 0);
+    }
 };
 
-struct FCityData
+struct FCityBuildings
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxBuildingsInDistrict> Buildings;    
+    TStaticArray<TTuple<entt::entity, int32>, FMaxBuildingsInDistrict::Value> Value;
+
+    FCityBuildings()
+    {
+        for(decltype(auto) Element : Value)
+            Element = MakeTuple(entt::null, 0);
+    }
 };
 
-struct FFactoryData
+struct FFactoryInput
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxFactoryInput> Input;
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxFactoryOutput> Output;     
+    TStaticArray<TPair<entt::entity, int32>, FMaxFactoryInput::Value> Value;
+
+    FFactoryInput()
+    {
+        for(decltype(auto) Element : Value)
+            Element = MakeTuple(entt::null, 0);
+    }
 };
 
-struct FMineData
+struct FFactoryOutput
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxMineOutput> Output;    
+    TStaticArray<TPair<entt::entity, int32>, FMaxFactoryOutput::Value> Value;
+
+    FFactoryOutput()
+    {
+        for(decltype(auto) Element : Value)
+            Element = MakeTuple(entt::null, 0);
+    }
 };
 
-struct FStorageData
+struct FResourcesStorageInCity
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FDistrictRules::MaxResources> Storage;    
+    TStaticArray<TPair<entt::entity, int32>, FMaxResourcesInWorld::Value> Value;
+
+    FResourcesStorageInCity()
+    {
+        for(decltype(auto) Element : Value)
+            Element = MakeTuple(entt::null, 0);
+    }
 };

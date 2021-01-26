@@ -4,27 +4,62 @@
 #include "CoreMinimal.h"
 #include "Containers/StaticArray.h"
 
-struct FMapRules
+struct FChunkCountOX
 {
-	uint32 ChunkCountOX;
-	uint32 ChunkCountOY;
-	uint32 ChunkSize;
+	uint32 Value;	
 };
 
-struct FRenderRules
+struct FChunkCountOY
 {
-	float OuterToInner;
-	float OuterRadius;
-	TStaticArray<FVector, 7> Corners;
+	uint32 Value;	
 };
 
-struct FDistrictRules
+struct FChunkSize
 {
-	static constexpr uint32 MaxBuildings = 32;
-	static constexpr uint32 MaxResources = 32;
-	static constexpr uint32 MaxResourcesInDistrict = 8;
-	static constexpr uint32 MaxBuildingsInDistrict = 8;
-	static constexpr uint32 MaxFactoryInput = 8;
-	static constexpr uint32 MaxFactoryOutput = 8;
-	static constexpr uint32 MaxMineOutput = 8;
+	uint32 Value;	
+};
+
+struct FOuterToInner
+{
+	float Value;
+};
+
+struct FOuterRadius
+{
+	float Value;
+};
+
+struct FCorners
+{
+	TStaticArray<FVector, 7> Value;
+};
+
+struct FMaxBuildings
+{
+	static constexpr uint32 Value = 32;
+};
+
+struct FMaxResourcesInWorld
+{
+	static constexpr uint32 Value = 32;
+};
+
+struct FMaxResourcesInDistrict
+{
+	static constexpr uint32 Value = 8;
+};
+
+struct FMaxBuildingsInDistrict
+{
+	static constexpr uint32 Value = 8;
+};
+
+struct FMaxFactoryInput
+{
+	static constexpr uint32 Value = 8;
+};
+
+struct FMaxFactoryOutput
+{
+	static constexpr uint32 Value = 8;
 };

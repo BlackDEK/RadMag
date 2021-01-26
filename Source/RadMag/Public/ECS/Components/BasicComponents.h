@@ -4,8 +4,17 @@
 #include "CoreMinimal.h"
 #include "entt.hpp"
 
-struct FBasicData
+struct FEntityId
 {
-    entt::entity Id;
-    FName Name;
+    entt::entity Value;
+};
+
+struct FEntityName
+{
+    FName Value;
+};
+
+struct FPosition
+{
+    FIntVector Value;
 };
