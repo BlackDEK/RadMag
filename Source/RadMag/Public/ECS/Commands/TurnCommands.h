@@ -2,7 +2,7 @@
 
 #pragma once
 #include "BasicCommands.h"
-#include "ECS/GameData.h"
+#include "entt.hpp"
 #include "ECS/Entities/BasicGroups.h"
 
 namespace Commands

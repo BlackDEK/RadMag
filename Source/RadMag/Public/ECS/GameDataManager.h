@@ -21,9 +21,6 @@ protected:
     UPROPERTY()
     UGameData* GameData;
 
-    UPROPERTY()
-    TArray<USystem*> TurnSystems;
-
 public:
 
     UGameDataManager();
@@ -33,13 +30,4 @@ public:
     
     UFUNCTION(BlueprintCallable)
     void Execute(USystem* System);
-    
-    UFUNCTION(BlueprintCallable)
-    void AddSystemInTurn(USystem* System);
-
-    UFUNCTION(BlueprintCallable)
-    void RemoveSystemInTurn(const int32& Index);
-
-    UFUNCTION(BlueprintCallable)
-    void NextTurn();
 };
