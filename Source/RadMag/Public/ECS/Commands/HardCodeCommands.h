@@ -3,22 +3,22 @@
 #pragma once
 #include "entt.hpp"
 
-//Рефактор!
 namespace Commands
 {
 	inline void CreateResourcesAndBuildings(entt::registry& World)
 	{
-		/*
+		
 		TMap<FName, entt::entity> Resources = {
 			{"Wood", entt::null}, {"Food", entt::null},
 			{"Metal", entt::null}, {"Tool", entt::null}
 		};
 		for (auto& Name : Resources)
 		{
-			const auto Entity = BasicCommands::CreateEntity<Types::Resource>(GameData);
-			decltype(auto) BasicData = BasicCommands::Get<false, Types::Resource, FBasicData>(GameData, Entity);
-			BasicData.Id = Entity;
-			BasicData.Name = Name.Key;
+			const auto Entity = Commands::AddGroups
+			<true, Groups::BasicType, Groups::Resource>(World);
+			auto [ EntityId, EntityName ] = Commands::GetGroupComponents<false, Groups::BasicType>(World, Entity);
+			EntityId.Value = Entity;
+			EntityName.Value = Name.Key;
 			Resources[Name.Key] = Entity;
 		}
 
@@ -27,22 +27,27 @@ namespace Commands
 			{"Farm"}, {"Mine"}, {"Sawmill"}, {"Workshop"},
 		};
 
+		TArray<FName> Storage = {
+			{"Storage"}
+        };
+
 		{
-			const auto Farm = BasicCommands::CreateEntity<Types::Mine>(GameData);
-			auto [BasicData, FactoryData] = BasicCommands::Get
-				<false, Types::Mine, FBasicData, FFactoryData>(GameData, Farm);
-			BasicData.Id = Farm;
-			BasicData.Name = FName("Farm");
-			FactoryData.Output[0] = TPair<entt::entity, int32>(Resources["Food"], 2);
+			const auto Farm = Commands::AddGroups<true, Groups::BasicType, Groups::Building, Groups::Mine>(World);
+			auto [EntityId, EntityName, FactoryInput, FactoryOutput] = Commands::GetGroupComponents
+				<false, Groups::BasicType, Groups::Mine>(World, Farm);
+			EntityId.Value = Farm;
+			EntityName.Value = FName("Farm");
+			FactoryOutput.Value[0] = MakeTuple(Resources["Food"], 2);
 		}
 		{
+			/*
 			const auto Storage = BasicCommands::CreateEntity<Types::Storage>(GameData);
 			auto [BasicData, StorageData] = BasicCommands::Get
 				<false, Types::Storage, FBasicData, FStorageData>(GameData, Storage);
 			BasicData.Id = Storage;
 			BasicData.Name = FName("Storage");
+			*/
 		}
-		*/
 	}
 
 	inline void SetCities(entt::registry& World)
@@ -71,29 +76,22 @@ namespace Commands
 	}
 
 	inline void SetResources(entt::registry& World)
-	{
-		/*
-		TArray<entt::entity> Districts;
-		BasicCommands::GetAllIds<Types::District>(GameData, Districts);
+	{		
+		auto DistrictView = Commands::GetView<Groups::BasicType, Groups::District>(World);
 
-		TArray<entt::entity> Resources;
-		BasicCommands::GetAllIds<Types::Resource>(GameData, Resources);
-		TArray<TPair<entt::entity, int32>> ResourcesForDistrict;
-		for (auto Resource : Resources)
-			ResourcesForDistrict.Add(TPair<entt::entity, int32>(Resource, 100));
+		auto ResourcesView = Commands::GetView<Groups::BasicType, Groups::Resource>(World);
 
-		for (auto District : Districts)
+		for (auto District : DistrictView)
 		{
-			decltype(auto) DistrictData = BasicCommands::Get
-				<false, Types::District, FDistrictData>
-				(GameData, District);
+			auto& DistrictResources = DistrictView.get<FDistrictResources>(District);
 
-			for (auto Index = 0; Index < DistrictData.Resources.Num(); Index++)
-			{
-				if (ResourcesForDistrict.IsValidIndex(Index))
-					DistrictData.Resources[Index] = ResourcesForDistrict[Index];
-			}
+			std::size_t Index = 0;
+			for(auto Resource : ResourcesView)
+				if(Index < DistrictResources.Value.Num())
+				{					
+					DistrictResources.Value[Index] = MakeTuple(Resource, 100);
+					++Index;
+				}
 		}
-		*/
 	}
 }
