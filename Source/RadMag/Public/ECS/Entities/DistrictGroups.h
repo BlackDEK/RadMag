@@ -24,6 +24,10 @@ namespace Groups
         entt::tag<entt::hashed_string("Resource")>
     >::type;
 
+    using Building = entt::type_list<
+        entt::tag<entt::hashed_string("Building")>
+    >::type;
+
     using Factory = entt::type_list<
         entt::tag<entt::hashed_string("Factory")>,
         FFactoryInput,
