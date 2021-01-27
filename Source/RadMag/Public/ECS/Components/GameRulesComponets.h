@@ -34,7 +34,7 @@ struct FCorners
 	TStaticArray<FVector, 7> Value;
 };
 
-struct FMaxBuildings
+struct FMaxBuildingsInWorld
 {
 	static constexpr uint32 Value = 32;
 };

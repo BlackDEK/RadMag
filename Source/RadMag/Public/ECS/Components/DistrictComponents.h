@@ -30,7 +30,7 @@ struct FCityBuildings
 
 struct FFactoryInput
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FMaxFactoryInput::Value> Value;
+    TStaticArray<TTuple<entt::entity, int32>, FMaxFactoryInput::Value> Value;
 
     FFactoryInput()
     {
@@ -41,7 +41,7 @@ struct FFactoryInput
 
 struct FFactoryOutput
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FMaxFactoryOutput::Value> Value;
+    TStaticArray<TTuple<entt::entity, int32>, FMaxFactoryOutput::Value> Value;
 
     FFactoryOutput()
     {
@@ -52,7 +52,7 @@ struct FFactoryOutput
 
 struct FResourcesStorageInCity
 {    	
-    TStaticArray<TPair<entt::entity, int32>, FMaxResourcesInWorld::Value> Value;
+    TStaticArray<TTuple<entt::entity, int32>, FMaxResourcesInWorld::Value> Value;
 
     FResourcesStorageInCity()
     {

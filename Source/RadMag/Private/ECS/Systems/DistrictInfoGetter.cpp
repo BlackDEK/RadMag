@@ -14,7 +14,7 @@ USystem* UDistrictInfoGetter::MakeSystemDistrictInfoGetter(TScriptInterface<IAbs
 	const auto DistrictInfoGetter = [Widget, Location](UGameData* GameData)
 	{
 		auto& World = GameData->World;
-		const auto Text = Commands::DistrictInfoGetter_New(Location, World);
+		const auto Text = Commands::DistrictInfoGetter(Location, World);
 		IAbstractWidget::Execute_OnUpdateInfo(Widget.GetObject(), Text);
 	};
 	return UBasicSystemFactory::CreateSystem(DistrictInfoGetter, Outer);

@@ -24,7 +24,7 @@ namespace Groups
 
     using DistrictRules = entt::type_list<
         entt::tag<entt::hashed_string("DistrictRules")>,
-        FMaxBuildings,
+        FMaxBuildingsInWorld,
         FMaxResourcesInWorld,
         FMaxResourcesInDistrict,
         FMaxBuildingsInDistrict,
