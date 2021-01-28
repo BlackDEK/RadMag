@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ECS/GameData.h"
 #include "HexMetricsCommands.h"
 #include "RenderCommandsContexts.h"
 #include "ECS/Entities/DistrictGroups.h"
@@ -13,7 +12,7 @@ namespace Commands
 	inline void GenerateChunksCache(TArray<FChunkCache>& Caches, entt::registry& World)
 	{
 		const auto [ChunkCountOX, ChunkCountOY, ChunkSize, OuterToInner, OuterRadius, Corners]
-		= Commands::GetGroupComponents<true, Groups::MapRules, Groups::RenderRules>(World);
+		= Commands::GetGroupComponents<Groups::MapRules, Groups::RenderRules>(World);
 		Caches.Init(FChunkCache(), ChunkCountOX.Value * ChunkCountOY.Value);
 
 		auto DistrictView = Commands::GetView<Groups::District>(World);	

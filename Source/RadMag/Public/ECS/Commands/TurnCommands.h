@@ -10,7 +10,7 @@ namespace Commands
 	inline void IncrementingTurn(entt::registry& World)
 	{
 		auto [CurrentTurn] =
-                    Commands::GetGroupComponents<true, Groups::WorldInfo>(World);
+                    Commands::GetGroupComponents<Groups::WorldInfo>(World);
 		++CurrentTurn.Value;
 	}
 	

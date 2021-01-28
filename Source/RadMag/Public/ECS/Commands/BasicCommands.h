@@ -40,15 +40,12 @@ namespace RadMag
 }
 
 namespace Commands
-{
-	template <bool CreateNewEntity, typename... Group>
-    entt::entity AddGroups(entt::registry& World, entt::entity Entity = entt::null)
+{	
+	template <typename... Group>
+    void AddGroups(entt::registry& World, entt::entity Entity)
 	{
-		if constexpr (CreateNewEntity)
-            Entity = World.create();
 		check(World.valid(Entity));
 		(RadMag::Iterate<Group, RadMag::AddComponents>(World, Entity), ...);
-		return Entity;
 	}
 
 	template <typename... Group>
@@ -60,32 +57,51 @@ namespace Commands
 	template <typename... Group>
     bool IsValidGroups(entt::registry& World)
 	{
-		auto Entity = Commands::GetView<Group...>(World).front();
-		return Entity != entt::null;
+		auto View = Commands::GetView<Group...>(World);
+		return View.front() != entt::null;
 	}
 
-	template <bool GetFirst, typename... Group>
-	decltype(auto) GetGroupComponents(entt::registry& World, entt::entity Entity = entt::null)
+	template <typename... Group>
+    bool IsValidGroups(entt::registry& World, entt::entity Entity)
 	{
 		auto View = Commands::GetView<Group...>(World);
-		if constexpr (GetFirst)
-		{
-			check(Entity == entt::null);
-			Entity = View.front();
-		}
+		check(Entity != entt::null);
+		for(auto ViewEntity : View)
+			if(ViewEntity == Entity)
+				return true;		
+		return false;
+	}
+
+	template <typename... Group>
+    decltype(auto) GetGroupComponents(entt::registry& World)
+	{
+		auto View = Commands::GetView<Group...>(World);
+		const auto Entity = View.front();
 		check(Entity != entt::null);
 		return View.get(Entity);
 	}
 
-	template <bool GetFirst, typename... Components>
-    decltype(auto) GetComponents(entt::registry& World, entt::entity Entity = entt::null)
+	template <typename... Group>
+	decltype(auto) GetGroupComponents(entt::registry& World, entt::entity Entity)
+	{
+		auto View = Commands::GetView<Group...>(World);
+		check(Entity != entt::null);
+		return View.get(Entity);
+	}
+
+	template <typename... Components>
+    decltype(auto) GetComponents(entt::registry& World)
 	{
 		auto View = World.view<Components...>();
-		if constexpr (GetFirst)
-		{
-			check(Entity == entt::null);
-			Entity = View.front();
-		}
+		const auto Entity = View.front();
+		check(Entity != entt::null);
+		return View.get(Entity);
+	}
+
+	template <typename... Components>
+    decltype(auto) GetComponents(entt::registry& World, entt::entity Entity)
+	{
+		auto View = World.view<Components...>();
 		check(Entity != entt::null);
 		return View.get(Entity);
 	}

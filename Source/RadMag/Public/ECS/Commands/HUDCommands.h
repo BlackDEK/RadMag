@@ -9,14 +9,13 @@
 #include "ECS/Entities/BasicGroups.h"
 #include "ECS/Entities/GameRulesGroups.h"
 
-//Рефактор
 namespace Commands
-{
+{	
 	inline FText WorldInfoGetter(entt::registry& World)
 	{	
 		if (!Commands::IsValidGroups<Groups::WorldInfo>(World)) return FText();
 		const auto [CurrentTurn] =
-                    Commands::GetGroupComponents<true, Groups::WorldInfo>(World);
+                    Commands::GetGroupComponents<Groups::WorldInfo>(World);
 		FTextBuilder TextBuilder;
 		TextBuilder.AppendLine(FString("Entities: " + FString::FromInt(World.alive())));
 		TextBuilder.AppendLine(FString("CurrentTurn: " + FString::FromInt(CurrentTurn.Value)));
@@ -28,8 +27,8 @@ namespace Commands
 	{
 		const auto Entity = Commands::GetDistrictId(Location, World);
 		if (Entity == entt::null) return FText();
-		const auto [EntityId, EntityName, Position, DistrictResources] = Commands::GetGroupComponents
-            <false, Groups::BasicType, Groups::District>
+		const auto& [EntityId, EntityName, Position, DistrictResources] = Commands::GetGroupComponents
+            <Groups::BasicType, Groups::District>
             (World, Entity);
 
 		FTextBuilder TextBuilder;
@@ -99,7 +98,7 @@ namespace Commands
 	{		
 		if (!Commands::IsValidGroups<Groups::MapRules>(World)) return FText();
 		auto [ChunkCountOX, ChunkCountOY, ChunkSize] =
-            Commands::GetGroupComponents<true, Groups::MapRules>(World);
+            Commands::GetGroupComponents<Groups::MapRules>(World);
 		FTextBuilder TextBuilder;
 		TextBuilder.AppendLine(FString("Length: " + FString::FromInt(ChunkCountOX.Value * ChunkSize.Value)));
 		TextBuilder.AppendLine(FString("Height: " + FString::FromInt(ChunkCountOY.Value * ChunkSize.Value)));

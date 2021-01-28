@@ -7,16 +7,15 @@ namespace Commands
 {
 	inline void CreateResourcesAndBuildings(entt::registry& World)
 	{
-		
 		TMap<FName, entt::entity> Resources = {
 			{"Wood", entt::null}, {"Food", entt::null},
 			{"Metal", entt::null}, {"Tool", entt::null}
 		};
 		for (auto& Name : Resources)
 		{
-			const auto Entity = Commands::AddGroups
-			<true, Groups::BasicType, Groups::Resource>(World);
-			auto [ EntityId, EntityName ] = Commands::GetGroupComponents<false, Groups::BasicType>(World, Entity);
+			const auto Entity = World.create();
+			Commands::AddGroups<Groups::BasicType, Groups::Resource>(World, Entity);
+			auto [EntityId, EntityName] = Commands::GetGroupComponents<Groups::BasicType>(World, Entity);
 			EntityId.Value = Entity;
 			EntityName.Value = Name.Key;
 			Resources[Name.Key] = Entity;
@@ -29,12 +28,13 @@ namespace Commands
 
 		TArray<FName> Storage = {
 			{"Storage"}
-        };
+		};
 
 		{
-			const auto Farm = Commands::AddGroups<true, Groups::BasicType, Groups::Building, Groups::Mine>(World);
+			const auto Farm = World.create();
+			Commands::AddGroups<Groups::BasicType, Groups::Building, Groups::Mine>(World, Farm);
 			auto [EntityId, EntityName, FactoryInput, FactoryOutput] = Commands::GetGroupComponents
-				<false, Groups::BasicType, Groups::Mine>(World, Farm);
+				<Groups::BasicType, Groups::Mine>(World, Farm);
 			EntityId.Value = Farm;
 			EntityName.Value = FName("Farm");
 			FactoryOutput.Value[0] = MakeTuple(Resources["Food"], 2);

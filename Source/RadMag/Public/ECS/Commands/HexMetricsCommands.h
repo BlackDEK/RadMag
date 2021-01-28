@@ -27,14 +27,14 @@ namespace Commands
 	inline float GetInnerDiameter(entt::registry& World)
 	{
 		const auto [OuterRadius, OuterToInner] = Commands::GetComponents
-        <true, FOuterRadius, FOuterToInner>(World);
+        <FOuterRadius, FOuterToInner>(World);
 		return 2.f * OuterRadius.Value * OuterToInner.Value;
 	}
 
 	inline FVector ConvertToRealCoordinate(const FIntVector& OffsetCoordinate, entt::registry& World)
 	{		
 		const auto [OuterRadius] = Commands::GetComponents
-        <true, FOuterRadius>(World);
+        <FOuterRadius>(World);
 		const auto X = static_cast<float>((OffsetCoordinate.X + OffsetCoordinate.Y * 0.5f - OffsetCoordinate.Y / 2) *
 			GetInnerDiameter(World));
 		const auto Y = static_cast<float>(OffsetCoordinate.Y * (OuterRadius.Value * 1.5f));
@@ -45,7 +45,7 @@ namespace Commands
 	inline FIntVector ConvertToCubeCoordinate(const FVector& RealCoordinate, entt::registry& World)
 	{				
 		const auto [OuterRadius] = Commands::GetComponents
-        <true, FOuterRadius>(World);		
+        <FOuterRadius>(World);		
 		float X = RealCoordinate.X / GetInnerDiameter(World);
 		float Y = -X;
 		const float Offset = RealCoordinate.Y / (OuterRadius.Value * 3.0f);
@@ -71,7 +71,7 @@ namespace Commands
 	inline uint32 ConvertToChunkIndex(const FIntVector OffsetCoordinate, entt::registry& World)
 	{
 		const auto [ChunkCountOX, ChunkSize] =
-			Commands::GetComponents<true, FChunkCountOX, FChunkSize>(World);
+			Commands::GetComponents<FChunkCountOX, FChunkSize>(World);
 		const int32 ChunkX = OffsetCoordinate.X / ChunkSize.Value;
 		const int32 ChunkY = OffsetCoordinate.Y / ChunkSize.Value;
 		return static_cast<uint32>(ChunkX + ChunkY * ChunkCountOX.Value);

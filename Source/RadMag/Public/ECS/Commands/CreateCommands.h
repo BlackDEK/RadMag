@@ -15,12 +15,14 @@ namespace Commands
 		check(!Commands::IsValidGroups<Groups::RenderRules>(World));
 		check(!Commands::IsValidGroups<Groups::DistrictRules>(World));
 
-		const auto Entity = Commands::AddGroups
-			<true, Groups::BasicType, Groups::MapRules, Groups::RenderRules, Groups::DistrictRules>
-			(World);
+
+		const auto Entity = World.create();
+		Commands::AddGroups
+			<Groups::BasicType, Groups::MapRules, Groups::RenderRules, Groups::DistrictRules>
+			(World, Entity);
 
 		auto [EntityId, EntityName, ChunkCountOX, ChunkCountOY, ChunkSize, OuterToInner, OuterRadius, Corners] =
-			Commands::GetGroupComponents<true, Groups::BasicType, Groups::MapRules, Groups::RenderRules>(World);
+			Commands::GetGroupComponents<Groups::BasicType, Groups::MapRules, Groups::RenderRules>(World);
 
 		EntityId.Value = Entity;
 		EntityName.Value = FName(TEXT("GameRules"));
@@ -52,17 +54,16 @@ namespace Commands
 		check(!Commands::IsValidGroups<Groups::District>(World));
 
 		const auto [ChunkCountOX, ChunkCountOY, ChunkSize] =
-			Commands::GetGroupComponents<true, Groups::MapRules>(World);
+			Commands::GetGroupComponents<Groups::MapRules>(World);
 
 		for (uint32 Y = 0; Y < ChunkCountOY.Value * ChunkSize.Value; Y++)
 			for (uint32 X = 0; X < ChunkCountOX.Value * ChunkSize.Value; X++)
 			{
-				const auto Entity = Commands::AddGroups
-					<true, Groups::BasicType, Groups::District>
-					(World);
+				const auto Entity = World.create();
+				Commands::AddGroups<Groups::BasicType, Groups::District>(World, Entity);
 
 				const auto [EntityId, EntityName, Position, DistrictResources] =
-					Commands::GetGroupComponents<false, Groups::BasicType, Groups::District>(World, Entity);
+					Commands::GetGroupComponents<Groups::BasicType, Groups::District>(World, Entity);
 
 				EntityId.Value = Entity;
 				EntityName.Value = FName("District_" + FString::FromInt(X) + "_" + FString::FromInt(Y));
@@ -74,12 +75,11 @@ namespace Commands
 	{
 		check(!Commands::IsValidGroups<Groups::WorldInfo>(World));
 
-		const auto Entity = Commands::AddGroups
-			<true, Groups::BasicType, Groups::WorldInfo>
-			(World);
+		const auto Entity = World.create();
+		Commands::AddGroups<Groups::BasicType, Groups::WorldInfo>(World, Entity);
 
 		const auto [EntityId, EntityName, CurrentTurn] =
-                    Commands::GetGroupComponents<false, Groups::BasicType,  Groups::WorldInfo>(World, Entity);
+			Commands::GetGroupComponents<Groups::BasicType, Groups::WorldInfo>(World, Entity);
 
 		EntityId.Value = Entity;
 		EntityName.Value = FName(TEXT("WorldInfo"));
