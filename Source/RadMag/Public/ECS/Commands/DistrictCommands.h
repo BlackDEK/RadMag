@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "HexMetricsCommands.h"
 #include "ECS/Entities/DistrictGroups.h"
+#include "entt.hpp"
 
 namespace Commands
 {
@@ -25,5 +26,23 @@ namespace Commands
 			}					
 		}
 		return Result;
+	}
+
+	template<typename StorageType>
+	decltype(auto) AddResourcesInStorage(entt::registry& World, StorageType& Storage, entt::entity Mine)
+	{
+		const auto& FactoryOutput = World.get<FFactoryOutput>(Mine).Value;
+		
+		for(auto Resource : FactoryOutput)
+		{
+			const auto Index = Find(Storage, Resource.Key);
+			if(Index == INDEX_NONE)
+			{
+				Add(Storage, Resource);
+				continue;
+			}
+
+			Storage[Index].Value += Resource.Value;
+		}		
 	}
 }

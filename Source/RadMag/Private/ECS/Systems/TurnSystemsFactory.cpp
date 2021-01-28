@@ -12,6 +12,7 @@ USystem* UTurnSystemsFactory::MakeSystemNextTurn(TArray<TScriptInterface<ITurnSy
 	{		
 		auto& World = GameData->World;
 		Commands::IncrementingTurn(World);
+		Commands::WorkCycleStart(World);
 		for(auto Listener : Listeners)
 		{			
 			ITurnSystemListener::Execute_OnNextTurn(Listener.GetObject());

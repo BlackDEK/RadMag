@@ -32,66 +32,54 @@ namespace Commands
             (World, Entity);
 
 		FTextBuilder TextBuilder;
+		TextBuilder.AppendLine(FString("BaseInfo"));
 		TextBuilder.AppendLine(FString("Id: " + FString::FromInt(static_cast<uint32>(EntityId.Value))));
 		TextBuilder.AppendLine(FString("Name: " + EntityName.Value.ToString()));
 		TextBuilder.AppendLine(FString(TEXT("CubeCoordinate: ") + Position.Value.ToString()));
-
-		for (auto Resource : DistrictResources.Value)
-		{			
-			if (Resource.Key == entt::null)
-				continue;
+		TextBuilder.AppendLine(FString(" "));
+		TextBuilder.AppendLine(FString("Resources in district"));
+		auto Operation = [&TextBuilder, &World] (const auto& Element)
+		{
+			if (Element.Key == entt::null)
+				return;
 			const auto [ResourceId, ResourceName] = Commands::GetGroupComponents
-                <false, Groups::BasicType>
-                (World, Resource.Key);
-			TextBuilder.AppendLine(FString(ResourceName.Value.ToString() + ": " + FString::FromInt(Resource.Value)));
-		}
-
+                <Groups::BasicType>
+                (World, Element.Key);
+			TextBuilder.AppendLine(FString(ResourceName.Value.ToString() + ": " + FString::FromInt(Element.Value)));
+		};
+		std::for_each(DistrictResources.Value.begin(), DistrictResources.Value.end(), Operation);
+		
 		return TextBuilder.ToText();
 	}
 
 	inline FText CityInfoGetter(const FVector& Location, entt::registry& World)
 	{
-		/*
-		if(BasicCommands::IsValidEntityType<false, Types::DistrictWithCity>(GameData, Entity))
-		{
-		const auto CityData = BasicCommands::Get
-		<false, Types::DistrictWithCity, FCityData>
-		(GameData, Entity);
-		for (auto Building : CityData.Buildings)
-		{			
-		if (Building.Key == entt::null)
-		break;
+		const auto Entity = Commands::GetDistrictId(Location, World);
+		if (!Commands::IsValidGroups<Groups::City>(World, Entity)) return FText();
+		const auto& [CityBuildings, ResourcesStorageInCity] = Commands::GetGroupComponents
+            <Groups::City>
+            (World, Entity);
 
-		if(BasicCommands::IsValidEntityType<false, Types::Mine>(GameData, Building.Key))
+		FTextBuilder TextBuilder;
+		auto Operation = [&TextBuilder, &World] (const auto& Element)
 		{
-		const auto BuildingBasicData = BasicCommands::Get
-		<false, Types::Mine, FBasicData>
-		(GameData, Building.Key);
-		TextBuilder.AppendLine(FString(BuildingBasicData.Name.ToString() + ": " + FString::FromInt(Building.Value)));					
-		}
-
-		if(BasicCommands::IsValidEntityType<false, Types::Factory>(GameData, Building.Key))
-		{
-		const auto BuildingBasicData = BasicCommands::Get
-		<false, Types::Factory, FBasicData>
-		(GameData, Building.Key);
-		TextBuilder.AppendLine(FString(BuildingBasicData.Name.ToString() + ": " + FString::FromInt(Building.Value)));					
-		}
-
-		if(BasicCommands::IsValidEntityType<false, Types::Storage>(GameData, Building.Key))
-		{
-		const auto BuildingBasicData = BasicCommands::Get
-		<false, Types::Storage, FBasicData>
-		(GameData, Building.Key);
-		TextBuilder.AppendLine(FString(BuildingBasicData.Name.ToString() + ": " + FString::FromInt(Building.Value)));					
-		}
-		}			
-		}
-
-		return TextBuilder.ToText();
-		*/
+			if (Element.Key == entt::null)
+				return;
+			const auto [Id, Name] = Commands::GetGroupComponents
+                <Groups::BasicType>
+                (World, Element.Key);
+			TextBuilder.AppendLine(FString(Name.Value.ToString()));
+			TextBuilder.AppendLine(FString("Id: " + FString::FromInt(static_cast<int32>(Element.Key))));
+			TextBuilder.AppendLine(FString("Count: " + FString::FromInt(Element.Value)));
+		};
 		
-		return FText();
+		TextBuilder.AppendLine(FString("Buildings in city"));
+		std::for_each(CityBuildings.Value.begin(), CityBuildings.Value.end(), Operation);
+		TextBuilder.AppendLine(FString(" "));
+		TextBuilder.AppendLine(FString("Resource in city"));	
+		std::for_each(ResourcesStorageInCity.Value.begin(), ResourcesStorageInCity.Value.end(), Operation);	
+		
+		return TextBuilder.ToText();
 	}
 
 	inline FText MapInfoGetter(entt::registry& World)

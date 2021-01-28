@@ -52,31 +52,39 @@ namespace Commands
 
 	inline void SetCities(entt::registry& World)
 	{
-		/*
-		TArray<entt::entity> Districts;
-		BasicCommands::GetAllIds<Types::District>(GameData, Districts);
+		auto BuildingsView = Commands::GetView<Groups::BasicType, Groups::Building>(World);		
+		int32 Index = 0;
+		auto DistrictView =
+			Commands::GetView<Groups::BasicType, Groups::District>(World);
+		std::for_each(DistrictView.begin(), DistrictView.end(),
+		              [&World, &Index, BuildingsView](auto& District)
+		              {
+		              	if(Index % 8 != 0)
+		              	{		              				              	
+		              		Index++;
+		              		return;
+		              	}
+		              	Commands::AddGroups<Groups::City>(World, District);
 
-		for (auto Index = 0; Index < Districts.Num(); Index++)
-			if (Index % 2 == 0)
-			{
-				const auto Entity = BasicCommands::ExpandEntity
-				<false, Types::DistrictWithCity>
-				(GameData, Districts[Index]);
-				
-				const auto FarmBasicData = BasicCommands::Get<true, Types::Mine, FBasicData>(GameData);
-				const auto StorageBasicData = BasicCommands::Get<true, Types::Storage, FBasicData>(GameData);
+		              	auto& CityBuildings = World.get<FCityBuildings>(District);
+		              	auto BuildingIndex = 0;
+		              	for(auto Building : BuildingsView)
+		              	{
+		              		if(BuildingIndex > CityBuildings.Value.Num())
+		              			break;
 
-				decltype(auto) CityData = BasicCommands::Get
-				<false, Types::DistrictWithCity, FCityData>
-				(GameData, Entity);
-				CityData.Buildings[0] = MakeTuple(FarmBasicData.Id, 1);
-				CityData.Buildings[1] = MakeTuple(StorageBasicData.Id, 1);
-			}
-			*/
+		              		CityBuildings.Value[BuildingIndex] =
+		              			MakeTuple(BuildingsView.get<FEntityId>(Building).Value, 1);
+
+		              		BuildingIndex++;
+		              	}		              	
+		              	Index++;
+		              }
+		);
 	}
 
 	inline void SetResources(entt::registry& World)
-	{		
+	{
 		auto DistrictView = Commands::GetView<Groups::BasicType, Groups::District>(World);
 
 		auto ResourcesView = Commands::GetView<Groups::BasicType, Groups::Resource>(World);
@@ -86,9 +94,9 @@ namespace Commands
 			auto& DistrictResources = DistrictView.get<FDistrictResources>(District);
 
 			std::size_t Index = 0;
-			for(auto Resource : ResourcesView)
-				if(Index < DistrictResources.Value.Num())
-				{					
+			for (auto Resource : ResourcesView)
+				if (Index < DistrictResources.Value.Num())
+				{
 					DistrictResources.Value[Index] = MakeTuple(Resource, 100);
 					++Index;
 				}

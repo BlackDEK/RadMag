@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BasicCommands.h"
+#include "Containers/StaticArray.h"
 
 namespace RadMag
 {
@@ -22,6 +23,15 @@ namespace RadMag
 		static decltype(auto) Execute(entt::registry& World, entt::entity Entity)
 		{
 			return World.view<ComponentType...>();
+		}
+	};
+	
+	template <typename... ComponentType>
+	struct IsValid
+	{
+		static decltype(auto) Execute(entt::registry& World, entt::entity Entity)
+		{
+			return World.has<ComponentType...>(Entity);
 		}
 	};
 
@@ -64,12 +74,10 @@ namespace Commands
 	template <typename... Group>
     bool IsValidGroups(entt::registry& World, entt::entity Entity)
 	{
-		auto View = Commands::GetView<Group...>(World);
-		check(Entity != entt::null);
-		for(auto ViewEntity : View)
-			if(ViewEntity == Entity)
-				return true;		
-		return false;
+		if(!World.valid(Entity))
+			return false;
+
+		return (RadMag::Iterate<Group, RadMag::IsValid>(World, Entity), ...);;
 	}
 
 	template <typename... Group>
@@ -97,12 +105,57 @@ namespace Commands
 		check(Entity != entt::null);
 		return View.get(Entity);
 	}
-
-	template <typename... Components>
-    decltype(auto) GetComponents(entt::registry& World, entt::entity Entity)
+	
+	template <typename... Group>
+	decltype(auto) GetOnlyHasGroup(entt::registry& World, TArray<entt::entity>& Array)
 	{
-		auto View = World.view<Components...>();
-		check(Entity != entt::null);
-		return View.get(Entity);
+		for(auto Element : Array)
+		{
+			if(!IsValidGroups<Group...>(World, Element))
+				Array.Remove(Element);
+		}
+		return Array;
+	}
+
+	template <typename... T, uint32 Size>
+	decltype(auto) ConvertToEntityArray
+	(const TStaticArray<TTuple<entt::entity, T...>, Size>& Array)
+	{
+		TArray<entt::entity> Result;
+		for(auto Element : Array)
+		{
+			if(Element.Key != entt::null)
+				Result.Add(Element.Key);
+		}
+		return Result;
+	}
+
+	/**
+	 *Impl epic function for static array 
+	 */
+	template<typename... T, std::size_t Size>
+	std::size_t Find(const TStaticArray<TTuple<entt::entity, T...>, Size>& Array, const entt::entity& Item)
+	{
+		for (auto Index = 0; Index < Array.Num(); Index++)
+		{
+			if(Array[Index].Key == Item)
+				return Index;
+		}
+		return INDEX_NONE;
+	}
+
+	template<typename... T, std::size_t Size>
+	void Add(TStaticArray<TTuple<entt::entity, T...>, Size>& Array, const TTuple<entt::entity, T...>& Item)
+	{
+		for(auto& Element : Array)
+		{
+			if(Element.Key == entt::null)
+			{
+				Element = Item;
+				return;
+			}
+		}
+
+		check(false);
 	}
 }
