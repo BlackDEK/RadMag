@@ -40,9 +40,4 @@ namespace Groups
         FFactoryOutput
     >::type;
 
-    //Упростить заменив на табличку макс значений для хранилища
-    //в городе
-    //using Storage = entt::type_list<
-        //entt::tag<entt::hashed_string("Storage")>,
-    //>::type;
 }
