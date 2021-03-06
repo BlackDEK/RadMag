@@ -16,7 +16,7 @@ namespace Groups
     >::type;
 
     using CMapRules = entt::type_list<
-        entt::tag<entt::hashed_string("MapRules")>,
+        const entt::tag<entt::hashed_string("MapRules")>,
         const FChunkCountOX,
         const FChunkCountOY,
         const FChunkSize
@@ -30,7 +30,7 @@ namespace Groups
     >::type;
 
     using CRenderRules = entt::type_list<
-        entt::tag<entt::hashed_string("RenderRules")>,
+        const entt::tag<entt::hashed_string("RenderRules")>,
         const FOuterToInner,
         const FOuterRadius,
         const FCorners
@@ -47,7 +47,7 @@ namespace Groups
     >::type;
 
     using CDistrictRules = entt::type_list<
-        entt::tag<entt::hashed_string("DistrictRules")>,
+        const entt::tag<entt::hashed_string("DistrictRules")>,
         const FMaxBuildingsInWorld,
         const FMaxResourcesInWorld,
         const FMaxResourcesInDistrict,

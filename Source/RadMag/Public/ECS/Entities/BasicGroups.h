@@ -17,7 +17,7 @@ namespace Groups
     >::type;
 
 	using CBasicType = entt::type_list<
-        entt::tag<entt::hashed_string("BasicType")>,
+        const entt::tag<entt::hashed_string("BasicType")>,
         const FEntityId,
         const FEntityName
     >::type;
@@ -28,7 +28,7 @@ namespace Groups
 	>::type;
 
 	using CWorldInfo = entt::type_list<
-        entt::tag<entt::hashed_string("WorldInfo")>,
+        const entt::tag<entt::hashed_string("WorldInfo")>,
         const FCurrentTurn
     >::type;
 }
