@@ -15,11 +15,25 @@ namespace Groups
         FChunkSize
     >::type;
 
+    using CMapRules = entt::type_list<
+        entt::tag<entt::hashed_string("MapRules")>,
+        const FChunkCountOX,
+        const FChunkCountOY,
+        const FChunkSize
+    >::type;
+
     using RenderRules = entt::type_list<
         entt::tag<entt::hashed_string("RenderRules")>,
         FOuterToInner,
         FOuterRadius,
         FCorners
+    >::type;
+
+    using CRenderRules = entt::type_list<
+        entt::tag<entt::hashed_string("RenderRules")>,
+        const FOuterToInner,
+        const FOuterRadius,
+        const FCorners
     >::type;
 
     using DistrictRules = entt::type_list<
@@ -30,5 +44,15 @@ namespace Groups
         FMaxBuildingsInDistrict,
         FMaxFactoryInput,
         FMaxFactoryOutput
+    >::type;
+
+    using CDistrictRules = entt::type_list<
+        entt::tag<entt::hashed_string("DistrictRules")>,
+        const FMaxBuildingsInWorld,
+        const FMaxResourcesInWorld,
+        const FMaxResourcesInDistrict,
+        const FMaxBuildingsInDistrict,
+        const FMaxFactoryInput,
+        const FMaxFactoryOutput
     >::type;
 }

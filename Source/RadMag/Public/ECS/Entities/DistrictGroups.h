@@ -14,17 +14,37 @@ namespace Groups
         FDistrictResources
     >::type;
 
+    using CDistrict = entt::type_list<
+        entt::tag<entt::hashed_string("District")>,
+        const FPosition,
+        const FDistrictResources
+    >::type;
+
     using City = entt::type_list<
         entt::tag<entt::hashed_string("City")>,
         FCityBuildings,
         FResourcesStorageInCity
     >::type;
 
+    using CCity = entt::type_list<
+        entt::tag<entt::hashed_string("City")>,
+        const FCityBuildings,
+        const FResourcesStorageInCity
+    >::type;
+
     using Resource = entt::type_list<
         entt::tag<entt::hashed_string("Resource")>
     >::type;
 
+    using CResource = entt::type_list<
+        entt::tag<entt::hashed_string("Resource")>
+    >::type;
+
     using Building = entt::type_list<
+        entt::tag<entt::hashed_string("Building")>
+    >::type;
+
+    using CBuilding = entt::type_list<
         entt::tag<entt::hashed_string("Building")>
     >::type;
 
@@ -34,10 +54,21 @@ namespace Groups
         FFactoryOutput
     >::type;
 
+    using CFactory = entt::type_list<
+        entt::tag<entt::hashed_string("Factory")>,
+        const FFactoryInput,
+        const FFactoryOutput
+    >::type;
+
     using Mine = entt::type_list<
         entt::tag<entt::hashed_string("Mine")>,
         FFactoryInput,
         FFactoryOutput
     >::type;
 
+    using CMine = entt::type_list<
+        entt::tag<entt::hashed_string("Mine")>,
+        const FFactoryInput,
+        const FFactoryOutput
+    >::type;
 }
